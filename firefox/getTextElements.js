@@ -1,47 +1,41 @@
-function getMarkupInViewport(callback) {
-  function isVisible(element, viewport) {
-    // Determines if a given element is visible (within the viewport)
-    let rect = element.getBoundingClientRect(); 
-    let x1, x2, y1, y2; 
+function getElementsInViewport() {
+  const elementsInViewport = [];
 
-    x1 = rect.left; 
-    x2 = x1 + element.offsetWidth;
-    y1 = rect.top; 
-    y2 = y1 + element.offsetHeight; 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !elementsInViewport.includes(entry.target)) {
+        elementsInViewport.push(entry.target);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1, // Adjust this threshold as needed
+  });
 
-    return !(x1 >= viewport.w || y1 >= viewport.h || x2 < 0 || y2 < 0);
-  }
+  document.querySelectorAll('*').forEach((element) => {
+    observer.observe(element);
+  });
 
-  function Viewport() {
-    // Creates a new object with coordinates of the corners of the viewport 
-    // and its width and height 
-    this.x1 = window.pageXOffset; 
-    this.w = window.innerWidth; 
-    this.x2 = this.x1 + this.w - 1;
-    this.y1 = window.pageYOffset; 
-    this.h = window.innerHeight; 
-    this.y2 = this.y1 + this.h - 1;
-    return this; 
-  }
-
-  function onWindowScroll() {
-    const viewport = new Viewport(); 
-
-    for (let i = 0; i < document.body.childNodes.length; i++) 
-      if (isVisible(document.body.childNodes[i], viewport))
-        visible.push(document.body.childNodes[i]);
-
-
-    return visible;
-  }
-
-  let visible = []; 
-
-  addEventListener("scroll", _ => { 
-    visible = [];
-    let visibleElems = onWindowScroll();
-    visible = visibleElems;
-  }, false);
-
-  callback(visible);
+  return elementsInViewport;
 }
+
+function filterElements() {
+  const acceptedTags = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "article", "aside", "b", "em", "footer", "header", "li", "s", "section", "small", "strong"];
+  const visibleElems = getElementsInViewport(); 
+  
+  const textElems = visibleElems.filter(element => {
+    return acceptedTags.includes(element.nodeName.toLowerCase());
+  }); 
+
+  return textElems;
+}
+
+function getVisibleTextElements(callback) {
+  const elements = filterElements(); 
+
+  callback(elements);
+}
+
+export { getVisibleTextElements }
+

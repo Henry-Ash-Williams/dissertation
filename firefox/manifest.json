@@ -6,12 +6,13 @@
   "description": "FocusFlow is an innovative web browser plugin to enhance the reading experience. Using eye tracking software, the extension will dynamically highlight the paragraph being read by the user in real time, enabling users to rapidly get back to their place in the text when distracted from it. ",
 
   "icons": {
-    "48": "icons/border-48.png"
+    "48": "icons/FocusFlow-48x48.png",
+    "96": "icons/FocusFlow-96x96.png"
   },
 
   "content_scripts": [
     {
-      "matches": ["*"],
+      "matches": ["*://*/*"],
       "js": ["focusflow.js"]
     }
   ]
