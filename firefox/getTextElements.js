@@ -37,5 +37,4 @@ function getVisibleTextElements(callback) {
   callback(elements);
 }
 
-export { getVisibleTextElements }
-
+export { getVisibleTextElements };
