@@ -1,0 +1,3 @@
+# Dissertation 
+
+This repository contains the files for my dissertation. The project is a web browser extension designed for Firefox and Chrome that aims to enhance the reading experience for users. It utilizes computer vision techniques, such as gaze mapping and eye tracking, to highlight the paragraph currently being read by the user. By using the webcam, the extension can detect where the user's eyes are looking on the page. This feature can be particularly helpful for users who switch tabs or get distracted from the text, as it assists them in determining their current reading position. 
