@@ -1,0 +1,16 @@
+{
+  "name": "focusflow-firefox",
+  "version": "1.0.0",
+  "description": "FocusFlow is an innovative web browser plugin to enhance the reading experience. Using eye tracking software, the extension will dynamically highlight the paragraph being read by the user in real time, enabling users to rapidly get back to their place in the text when distracted from it. ",
+  "main": "focusflow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "web-ext --bc -f '/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox-bin' run",
+    "build": "web-ext build"
+  },
+  "author": "Henry Ash Williams",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "web-ext": "^7.6.2"
+  }
+}
