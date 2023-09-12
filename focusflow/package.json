@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "description": "FocusFlow is an innovative web browser plugin to enhance the reading experience. Using eye tracking software, the extension will dynamically highlight the paragraph being read by the user in real time, enabling users to rapidly get back to their place in the text when distracted from it.",
   "author": "Henry Ash Williams",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
