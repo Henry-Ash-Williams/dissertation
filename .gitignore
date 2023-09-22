@@ -43,4 +43,5 @@ dist/
 .tsbuildinfo
 
 
-other-work/__pycache__/
+__pycache__/*
+*.pyc
