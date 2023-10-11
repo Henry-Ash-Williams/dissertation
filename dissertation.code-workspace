@@ -2,8 +2,12 @@
 	"folders": [
 		{
 			"path": "."
-		},
+		}
 	],
-
-	"settings": {}
+	"settings": {
+		"editor.fontSize": 15,
+		"editor.rulers": [],
+		"editor.renderLineHighlight": "line",
+		"workbench.colorCustomizations": {}
+	}
 }
