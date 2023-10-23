@@ -1,12 +1,15 @@
-import torch 
-import torchvision.models as models 
+import torch
+import torchvision.models as models
 import torch.nn as nn
-import torch.nn.functional as F 
-import math 
+import torch.nn.functional as F
+import math
 
-class ImageModel(nn.Module):
+# Model from [here](https://github.com/yihuacheng/Itracker/blob/main/Itracker/model.py)
+
+class ItrackerImageModel(nn.Module):
+    # Used for both eyes (with shared weights) and the face (with unqiue weights)
     def __init__(self):
-        super(ImageModel, self).__init__()
+        super(ItrackerImageModel, self).__init__()
         self.features = nn.Sequential(
             nn.Conv2d(3, 96, kernel_size=11, stride=4, padding=0),
             nn.ReLU(inplace=True),
@@ -25,19 +28,73 @@ class ImageModel(nn.Module):
     def forward(self, x):
         x = self.features(x)
         x = x.view(x.size(0), -1)
+        return x
 
-class FaceModel(nn.Module):
+class FaceImageModel(nn.Module):
+    
     def __init__(self):
-        super(FaceModel, self).__init__()
-        self.conv = ImageModel()
+        super(FaceImageModel, self).__init__()
+        self.conv = ItrackerImageModel()
         self.fc = nn.Sequential(
-            nn.Linear(9,216, 128),
+            nn.Linear(12*12*64, 128),
             nn.ReLU(inplace=True),
             nn.Linear(128, 64),
             nn.ReLU(inplace=True),
-        )
+            )
 
     def forward(self, x):
         x = self.conv(x)
         x = self.fc(x)
-        return x 
+        return x
+
+class FaceGridModel(nn.Module):
+    # Model for the face grid pathway
+    def __init__(self, gridSize = 25):
+        super(FaceGridModel, self).__init__()
+        self.fc = nn.Sequential(
+            nn.Linear(gridSize * gridSize, 256),
+            nn.ReLU(inplace=True),
+            nn.Linear(256, 128),
+            nn.ReLU(inplace=True),
+            )
+
+    def forward(self, x):
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
+class ITrackerModel(nn.Module):
+    def __init__(self):
+        super(ITrackerModel, self).__init__()
+        self.eyeModel = ItrackerImageModel()
+        self.faceModel = FaceImageModel()
+        self.gridModel = FaceGridModel()
+        # Joining both eyes
+        self.eyesFC = nn.Sequential(
+            nn.Linear(2*12*12*64, 128),
+            nn.ReLU(inplace=True),
+            )
+        # Joining everything
+        self.fc = nn.Sequential(
+            nn.Linear(128+64+128, 128),
+            nn.ReLU(inplace=True),
+            nn.Linear(128, 2),
+            )
+
+    def forward(self, x_in):
+        # Eye nets
+        xEyeL = self.eyeModel(x_in["left"])
+        xEyeR = self.eyeModel(x_in["right"])
+        # Cat and FC
+        xEyes = torch.cat((xEyeL, xEyeR), 1)
+        xEyes = self.eyesFC(xEyes)
+
+        # Face net
+        xFace = self.faceModel(x_in["face"])
+        xGrid = self.gridModel(x_in["grid"])
+
+        # Cat all
+        x = torch.cat((xEyes, xFace, xGrid), 1)
+        x = self.fc(x)
+        
+        return x
