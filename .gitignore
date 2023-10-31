@@ -5,8 +5,9 @@
 /.vscode
 node_modules
 web-ext-artifacts
-
-
+wandb
+*.pdf
+*.cpython-*
 # Added by plasmo 
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -45,3 +46,12 @@ dist/
 
 __pycache__/*
 *.pyc
+
+*-blx.bib
+*.aux 
+*.log 
+*.run.xml
+*.synctex.gz 
+*.toc 
+
+/tex/interim-examples

@@ -1,21 +1,47 @@
 #!/usr/bin/env python3
 
 import subprocess, sys, os
+from subprocess import CalledProcessError
 
+def help():
+    print("""compile.py: A simple python tool to make compiling LaTeX projects easier
+USAGE: ./compile.py [options] [filename] 
+
+OPTIONS: 
+    compile [filename]      Compile the LaTeX document 
+    clean                   Remove all compilation artifacts from the current working directory 
+    help | --help | -h      Show this message
+
+NOTE: 
+    This program expects filenames to be provided WITHOUT an extension. 
+    
+EXAMPLES: 
+    Compile the document named 'main.tex'
+    $ ./compile.py compile main
+
+    Clean the current working directory, removes all compiler artefacts 
+    $ ./compile.py clean
+
+    Show this message
+    $ ./compile.py help
+    $ ./compile.py --help
+    $ ./compile.py -h
+""")
 
 def compile(filename):
     commands = [
-        ["pdflatex", "-halt-on-error", sys.argv[1] + ".tex"],
-        ["bibtex", "-terse", sys.argv[1] + ".aux"],
-        ["pdflatex", "-halt-on-error", sys.argv[1] + ".tex"],
-        ["pdflatex", "-halt-on-error", sys.argv[1] + ".tex"],
+        ["pdflatex", "-halt-on-error", filename + ".tex"],
+        ["bibtex", "-terse", filename + ".aux"],
+        ["pdflatex", "-halt-on-error", filename + ".tex"],
     ]
 
     for cmd in commands:
-        null = open("/dev/null")
-        # subprocess.run(cmd, stderr=null, stdout=null)
-        subprocess.run(cmd)
-        null.close()
+        completed_process = subprocess.run(cmd)
+        try:
+            completed_process.check_returncode()
+        except CalledProcessError: 
+            print(f"ERROR: Command {cmd} failed")
+            
 
     clean()
 
@@ -53,27 +79,27 @@ def clean():
         
 
 if __name__ == "__main__":
-    operationNotSupplied = False
-
-    try:
+    try: 
         operation = sys.argv[1]
-        if operation not in ["compile", "clean"]:
-            raise IndexError
     except IndexError:
-        operation = "compile"
-        operationNotSupplied = True
+        help()
+        exit()
 
     match operation:
         case "compile":
             file = None
             try:
-                file = sys.argv[2 if not operationNotSupplied else 1]
+                file = sys.argv[2]
             except IndexError:
-                print(f"file not supplied")
+                print("ERROR: Expected a filename")
                 exit()
 
             print(f"compiling {file}")
+            if not os.path.exists(f"{file}.tex"):
+                print(f"ERROR: {file}.tex not found")
+                exit()
             compile(file)
         case "clean":
-            print("clean option selected")
             clean()
+        case "--help" | "-h" | "help":
+            help()
