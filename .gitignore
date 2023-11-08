@@ -53,5 +53,11 @@ __pycache__/*
 *.run.xml
 *.synctex.gz 
 *.toc 
+*.out 
 
 /tex/interim-examples
+*.synctex(busy)
+
+*.bbl
+
+*.blg

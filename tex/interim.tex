@@ -1,10 +1,14 @@
-\documentclass{report}
+\documentclass[twocolumn]{report}
 
 \title{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
 \author{Henry Ash Williams}
 \date{\today}
 
 \usepackage[backend=bibtex]{biblatex}
+\usepackage{kpfonts}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{siunitx}
 
 \addbibresource{references.bib}
 
@@ -24,10 +28,53 @@
 % then make it read like one introduction 
 % 1-2 pages 
 
+% Gaze Mapping is a technique which involves using a camera in order to predict where a user is looking on a screen. It has many applications, including advertising, virtual reality, and user experience design. My project plans to utilize this technique in order to help users automatically determine the last paragraph they were reading in a piece of text. In order to achieve this, I plan on building a web browser extension which will be compatible with all major web browsers, such as Chrome, Firefox, and Opera. To detect where the user is looking on the page, I will use machine learning techniques trained on images taken from users webcam on their laptops and front facing cameras on their smartphones. This is so that the extension will work on as many devices as possible. 
+% In my dissertation, I plan on utilizing this technique to automatically bookmark the last paragraph a user read before they switch tabs or otherwise take a piece of text out of focus using a web browser extension.
+% Gaze mapping, a technology that employs camera based tracking to determine the location of the users gaze on a screen, holds a wide variety of applications in the modern world, including advertising, game development, and user experience design to name a few.  The extension will be available for all major browsers, such as Firefox, Chrome, Safari, and Edge. In order to predict where the user is looking on the screen, I plan on using a machine learning model which will use an image of the user interacting with their taken from their laptop or desktop PC's webcam, or the front-facing camera on their smartphone. 
+
+
+\noindent
+My project seeks to build a web browser extension, capable of automatically detecting and highlighting the last paragraph read by a user when they switch browser tabs. In order to achieve this, I plan on utilizing a technique known as Gaze Mapping. It typically takes an image of the user interacting with their device, either using an built in camera, or specialized hardware such as an infrared camera, to predict the location the user is looking at on the screen. Commercially available systems, such as the Tobii pro fusion can achieve $\ang{0.3}$ under ideal conditions, however this involves an expensive, external piece of hardware which will make the platform inaccessible to a majority of potential users. Instead, I plan on building a machine learning model, which will take an image from the users in built webcam if they are using a laptop, or their front facing smartphone camera, and predict where they are looking on the screen. 
+
+
+The web browser extension will target all major browsers, including but not limited to Firefox, Chrome, Safari and Edge. This ensures the plugin will be available to as many potential users as possible. The project will be split into two parts, a client side application which will host the machine learning model and make the predictions as to where the user is looking, and a web browser plugin which will communicate with this external application, sending images to it, receiving the predictions, and highlighting the corresponding paragraph. 
+
+This projects target audience spends a lot of time reading documents, and often finds themselves having to switch between tabs on their browsers, which causes them to loose their place in the document they were reading. Thus, they have to spend time figuring out where they were up to in the text before they can go on reading. 
+
+% \begin{itemize}
+%     \item Using Gaze mapping to bookmark the last paragraph a user read before switching focus 
+%     \item Gaze mapping predicts where a user is looking on a screen 
+    
+%     \begin{itemize}
+%         \item Used in Game Development to figure out what draws a users attention during gameplay 
+%         \item Used in user experience design to figure where users attention is drawn to when interacting with the application 
+%         \item Used in neuroscientific research to study visual perception and cognition to figure out how the brain processed information 
+%         \item Used to improve driver safety by detecting where a driver is focussed and how to make them pay more attention to the road 
+%     \end{itemize}
+
+%     \item How gaze mapping works 
+    
+%     \begin{itemize}
+%         \item Specialized hardware
+%         \item machine learning model 
+%         \item Some use both 
+%     \end{itemize}
+
+%     \item How my project will work 
+    
+%     \begin{itemize}
+%         \item Web extension for all major browsers 
+%         \item firefox, chrome, safari, edge 
+%         \item 
+%     \end{itemize}
+% \end{itemize}
+
+
 
 
 \chapter{Professional and Ethical Considerations}
-% read BCS CoC 
+
+This project will make use of deep learning, which requires a lot of data to train the machine learning model. This raises an interesting ethical consideration, as effort must be taken to ensure that all data used in the project is collected and stored in an ethical manner. I plan on using mostly secondary data, meaning data that has already been collected by someone else. The datasets I plan on using include MPII-Gaze \cite{cheng2021survey}, Gazecapture \cite{krafka2016eye}, and ETH-X Gaze \cite{zhang2020ethxgaze}. Foo Bar 
 
 \chapter{Related Work}
 % what's already been done, why mines better/different
