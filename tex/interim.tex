@@ -33,48 +33,31 @@
 % Gaze mapping, a technology that employs camera based tracking to determine the location of the users gaze on a screen, holds a wide variety of applications in the modern world, including advertising, game development, and user experience design to name a few.  The extension will be available for all major browsers, such as Firefox, Chrome, Safari, and Edge. In order to predict where the user is looking on the screen, I plan on using a machine learning model which will use an image of the user interacting with their taken from their laptop or desktop PC's webcam, or the front-facing camera on their smartphone. 
 
 
-\noindent
-My project seeks to build a web browser extension, capable of automatically detecting and highlighting the last paragraph read by a user when they switch browser tabs. In order to achieve this, I plan on utilizing a technique known as Gaze Mapping. It typically takes an image of the user interacting with their device, either using an built in camera, or specialized hardware such as an infrared camera, to predict the location the user is looking at on the screen. Commercially available systems, such as the Tobii pro fusion can achieve $\ang{0.3}$ under ideal conditions, however this involves an expensive, external piece of hardware which will make the platform inaccessible to a majority of potential users. Instead, I plan on building a machine learning model, which will take an image from the users in built webcam if they are using a laptop, or their front facing smartphone camera, and predict where they are looking on the screen. 
+% \noindent
+% My project seeks to build a web browser extension, capable of automatically detecting and highlighting the last paragraph read by a user when they switch browser tabs. In order to achieve this, I plan on utilizing a technique known as Gaze Mapping. It typically takes an image of the user interacting with their device, either using a built in camera, or specialized hardware such as an infrared camera, to predict the location the user is looking at on the screen. Commercially available systems, such as the Tobii pro fusion can achieve $\ang{0.3}$ of accuracy under ideal conditions \cite{tobiiprofusion}, however this involves an expensive, external piece of hardware which will make the platform inaccessible to a majority of potential users. Instead, I plan on building a machine learning model, which will take an image from the users in built webcam if they are using a laptop, or their front facing smartphone camera, and predict where they are looking on the screen. 
 
+% The web browser extension will target all major browsers, including but not limited to Firefox, Chrome, Safari and Edge. This ensures the plugin will be available to as many potential users as possible. The project will be split into two parts, a client side application which will host the machine learning model and make the predictions as to where the user is looking, and a web browser plugin which will communicate with this external application, sending images to it, receiving the predictions, and highlighting the corresponding paragraph. 
 
-The web browser extension will target all major browsers, including but not limited to Firefox, Chrome, Safari and Edge. This ensures the plugin will be available to as many potential users as possible. The project will be split into two parts, a client side application which will host the machine learning model and make the predictions as to where the user is looking, and a web browser plugin which will communicate with this external application, sending images to it, receiving the predictions, and highlighting the corresponding paragraph. 
+% The target user for this project spends a lot of time reading on their computer, and often finds themselves having to switch between tabs on their browsers, causing them to loose their place in the text they were reading. Thus, they have to spend time figuring out where they were up to in the text before they can go on reading. This can be very detrimental to the user, as if they are spending a lot of time switching between tabs, they may end up wasting a lot of time figuring out where they were up to. This would lead to decreased efficiency in their work. 
 
-This projects target audience spends a lot of time reading documents, and often finds themselves having to switch between tabs on their browsers, which causes them to loose their place in the document they were reading. Thus, they have to spend time figuring out where they were up to in the text before they can go on reading. 
+In this report, I present my project's objective: the development of a web browser extension which will enhance the reading experience by automatically detecting and highlighting the last paragraph read when users switch between browser tabs or otherwise has their focus taken away from the page. In order to achieve this goal, I will make use of a technique called Gaze Mapping. This technique typically utilizes a mix of both specialized hardware, and machine learning models to predict where a user is looking on a screen. While these solutions can achieve a high level of accuracy, $\ang{0.3}$ under ideal conditions \cite{tobiiprofusion}, they require users to buy specialized, and often expensive equipment. 
 
-% \begin{itemize}
-%     \item Using Gaze mapping to bookmark the last paragraph a user read before switching focus 
-%     \item Gaze mapping predicts where a user is looking on a screen 
-    
-%     \begin{itemize}
-%         \item Used in Game Development to figure out what draws a users attention during gameplay 
-%         \item Used in user experience design to figure where users attention is drawn to when interacting with the application 
-%         \item Used in neuroscientific research to study visual perception and cognition to figure out how the brain processed information 
-%         \item Used to improve driver safety by detecting where a driver is focussed and how to make them pay more attention to the road 
-%     \end{itemize}
+In order to make this technology more accessible, I aim on creating a more cost effective solution. My approach will make use of the existing cameras found in most modern devices, such as the web cam found in laptops, and front facing cameras found in smartphones. Thus enabling us to extend the benefits of this technology to a broader audience. 
 
-%     \item How gaze mapping works 
-    
-%     \begin{itemize}
-%         \item Specialized hardware
-%         \item machine learning model 
-%         \item Some use both 
-%     \end{itemize}
+The browser extension will be compatible with all major browsers, including Firefox, Chrome, and Edge to ensure widespread accessibility. The project will be made up of two components, the browser extension, and an external piece of software. The web browser extension will be responsible for making captures from the integrated camera when the text goes out of focus, and highlighting the paragraph the machine learning model predicts the user was reading before their focus switched. The other application will host the machine learning model, and make predictions as to where the user is looking.
 
-%     \item How my project will work 
-    
-%     \begin{itemize}
-%         \item Web extension for all major browsers 
-%         \item firefox, chrome, safari, edge 
-%         \item 
-%     \end{itemize}
-% \end{itemize}
-
-
-
+The target user for this project is an individual who frequently read on their computers and face the challenge of losing their place in the text when switching tabs. This can disrupt their workflow and lead to time being wasted on figuring out where they were up to in the text. 
 
 \chapter{Professional and Ethical Considerations}
 
-This project will make use of deep learning, which requires a lot of data to train the machine learning model. This raises an interesting ethical consideration, as effort must be taken to ensure that all data used in the project is collected and stored in an ethical manner. I plan on using mostly secondary data, meaning data that has already been collected by someone else. The datasets I plan on using include MPII-Gaze \cite{cheng2021survey}, Gazecapture \cite{krafka2016eye}, and ETH-X Gaze \cite{zhang2020ethxgaze}. Foo Bar 
+This project will make use of deep learning, which requires a lot of data to train the machine learning model. This raises an interesting ethical consideration, as effort must be taken to ensure that all data used in the project is collected and stored in an ethical manner. I plan on using mostly secondary data, meaning data that has already been collected by someone else. The datasets I plan on using include MPII-Gaze \cite{cheng2021survey}, Gazecapture \cite{krafka2016eye}, and ETH-X Gaze \cite{zhang2020ethxgaze}. 
+
+Both MPII-Gaze, and ETH-X Gaze are licensed under the Creative Commons Attribution NonCommercial ShareAlike 4.0 International License, meaning that in order to use these datasets, the final product must not be used for commercial purposes, and must also be released under the same license. The Gazecapture datasets license also has the same commercial stipulations, in addition to the fact that it must not be shared with anyone other than myself and my supervisor. This means that the final product cannot be published for use. I plan on training another model, which will be published with the browser extension, which will not be trained on the data from the dataset in question. For development, and evaluation, I will use the model trained on the data from this dataset. 
+
+Each of these datasets were collected from willing and informed participants, and great care was taken to ensure their rights were respected. 
+
+\section*{BCS }
+
 
 \chapter{Related Work}
 % what's already been done, why mines better/different
@@ -89,12 +72,55 @@ This project will make use of deep learning, which requires a lot of data to tra
 % how does your work contribute to this? 
 % what do you expect to achieve within the given time 
 % what will you not achieve 
+
+\section{Gaze Mapping Software}
+
+\subsection{Core Objectives} 
+    
+\begin{itemize}
+    \item Predict where a user is looking on a screen from an image taken from their web-cam or front facing camera 
+    \item Work in a variety of lighting conditions 
+    \item Work with a variety of head poses 
+    \item Work on both mobile and desktop devices
+    \item Predict gaze location within approximately a 2.5cm radius of the true location so the browser extension can accurately distinguish between paragraphs currently being read, and those that have already been read, or are still to be read
+    \item Be able to receive and decrypt images from the browser extension 
+    \item Be able to encrypt and send gaze location predictions to the browser extension
+\end{itemize}
+
+\subsection{Stretch Objectives}
+
+\begin{itemize}
+    \item Predict gaze locations within a 1cm radius of the true location
+\end{itemize}
+
+\section{Web Browser Extension}
+
+\subsection{Core Objectives}
+
+\begin{itemize}
+    \item The browser extension should work on Chrome, Firefox, Edge, Brave, Opera
+    \item The browser extension should be compatible with both the manifest V2 API for Firefox
+    \item The browser extension should be compatible with the manifest V3 API for the other browsers 
+    \item Should take a picture from the users webcam whenever the current tab is taken out of focus, for example, when the user switches tabs or changes windows 
+    \item Should encrypt the image before transmitting it to the software hosting the gaze mapping model 
+    \item Should receive and decrypt the gaze location from the software hosting the gaze mapping model 
+    \item Should be able to determine the bounding boxes of all paragraph elements in the webpage in relation to the current viewport using HTML semantics
+\end{itemize}
+
+\subsection{Stretch Objectives}
+
+\begin{itemize}
+    \item Could use a computer vision system to detect bounding boxes of paragraphs so the extension will work on pages which don't use HTML to render information such as pdfs 
+    \item Extension should also work on apples safari web browser  
+\end{itemize}
+
 \chapter{Project Plan}
 % Describe whats already done 
 % what you still want to do 
 % tasks interdependent 
 % include draft report 
 % include log of meetings 
+
 \chapter{Interim Log}
 \chapter{Proposal}
 
