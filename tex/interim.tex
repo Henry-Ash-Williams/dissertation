@@ -1,9 +1,13 @@
 \documentclass[twocolumn]{report}
-% \documentclass{report}
 
-\title{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
-\author{Henry Ash Williams}
-\date{\today}
+
+\newcommand{\mytitle}{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
+\newcommand{\myauthor}{Henry Ash Williams}
+\newcommand{\mydate}{\today}
+
+\title{\mytitle}
+\author{\myauthor}
+\date{\mydate}
 
 \usepackage[backend=bibtex]{biblatex}
 \usepackage[compact]{titlesec}
@@ -12,12 +16,48 @@
 \usepackage{hyperref}
 \usepackage{siunitx}
 \usepackage{graphicx}
+\usepackage[super]{nth}
 
 \addbibresource{references.bib}
 
 
 \begin{document}
-\maketitle
+
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{4cm}
+        {\huge\textbf{\mytitle}}
+
+        \vspace*{1cm}
+
+        {\Large\textbf{\myauthor}
+        
+        \vspace*{0.75cm}
+
+        \mydate}
+
+        \vspace*{2cm}
+
+        \includegraphics[scale=0.075]{../assets/UoS-logo.png}
+        
+        \vspace*{2cm}
+
+        {\Large BSc Computer Science with AI }
+
+        \vspace*{2cm}
+
+        {\large School of Engineering and Informatics 
+
+        Supervisor: Dr Temi Olugbade}
+
+
+
+    \end{center}
+\end{titlepage}
+
+
+
 \tableofcontents
 
 \chapter{Introduction}
@@ -40,7 +80,7 @@ In order to make this technology more accessible, I aim on creating a more cost 
 
 \section{Motivation}
 
-This project is motivated by the fact that there's no good way to automatically keep track of where you are in a large peice of text on digital devices, such as laptops and smartphones. 
+This project is motivated by the fact that there is no good way to automatically keep track of where you are in a large peice of text on digital devices, such as laptops and smartphones. 
 
 My project seeks to solve this problem by visually showing users their place in text, utilizing AI and machine learning. 
 
@@ -48,16 +88,189 @@ The target user for this project is an individual who frequently read on their c
 
 \section{Specific Objectives}\label{sec:specific-objectives}
 
-There are two specific tasks I want to accomplish as part of this project. Firstly, the development and evaluation of a machine learning model which predicts the location of a users gaze on a screen using images taken from their front facing camera. The second objective of this project is the development and validation of software which takes pictures from the users webcam whenever the current browser tab is taken out of focus and securely transmits the image to another application hosting the aforementioned machine learning model, and uses the models prediction in order to highlight the paragraph the user was reading last. 
+There are two specific tasks I want to accomplish as part of this project. 
 
-The machine learning model should be able to make predictions within an approximate $2.5\text{cm}$ radius of the true gaze location, in order to accurately distinguish between paragraphs on the screen. 
+\begin{itemize}
+    \item The development and evaluation of a machine learning model which predicts the location of a users gaze on a screen using images taken from their front facing camera. The machine learning model should be able to make predictions within an approximate $2.5\text{cm}$ radius of the true gaze location, in order to accurately distinguish between paragraphs on the screen. 
+    \item This project is the development and validation of software which takes pictures from the users webcam whenever the current browser tab is taken out of focus and securely transmits the image to another application hosting the aforementioned machine learning model, and uses the models prediction in order to highlight the paragraph the user was reading last. 
+\end{itemize}
+
 \section{Stretch Objectives}
 
 Stretch objectives are tasks that I consider to be optional. If I have achieved my main goals, as outlined in Section \ref{sec:specific-objectives}, and still have time before the final due date of the project, I will attempt to implement them. 
 
-My stretch objectives include a more accurate machine learning model, with an average accuracy of approximately $1\text{cm}$ of the true gaze location. This will enable more accurate detection of paragraphs and could even be used to detect the readers place in the text on a per-line or even per word basis. 
+\begin{itemize}
+    \item A more accurate machine learning model, achieving an average accuracy of $1\text{cm}$ of the true gaze location, enabling more accurate detection of paragraphs and could even be used to detect the readers place in the text on a per-line or even per word basis. 
 
-As it currently stands, the locations of the paragraphs will be detected using the information provided from the document object model (DOM) of the webpage. However, I want this extension to work on documents which aren't written in HTML, such as PDFs. This would require a computer vision system to detect where paragraphs are in an image. This is a stretch objective as it requires implementing and testing another complex feature for the project.
+    \item As it currently stands, the locations of the paragraphs will be detected using the information provided from the document object model (DOM) of the webpage. However, I want this extension to work on documents which aren't written in HTML, such as PDFs. This would require a computer vision system to detect where paragraphs are in an image. 
+
+\end{itemize}
+
+
+\chapter{Methodology}
+
+\section{Background Reading}
+
+\noindent
+In literature, terminology for eye tracking is used very inconsistently. For example, the phrase ``Gaze Estimation'' can be used to describe the 3 dimentional directional vector showing a users gaze direction in the world. In this paper, I use the phrase ``Gaze Mapping'' to describe the process of taking an image of the user and predicting a set of 2 dimentional coordinates which represent an area on the screen where the user is currently focussed on. The phrase ``Eye tracking'' may also be used to describe this process. 
+
+I could not find any applications which deliver an automated paragraph level bookmarking system using eye tracking to suppliment this work, so my background reading mostly focussed on existing machine learning models designed for gaze mapping. However, I was able to find a study \cite{barzvi2020eyetrackingdigialreading} using eye tracking to compare how poor and typical readers interact with text. This study is rather unhelpful, as it mostly describes how poor readers are typically more focussed on highlighted text. However, this does show that automatically highlighting the text for them, may help improve their reading skills. 
+
+
+
+\subsection{iTracker}\label{sec:itracker}
+
+As part of my background reading, I have looked at machine learning models performing gaze mapping in order to develop my knowledge of how existing approaches work. This includes the \verb|iTracker| model \cite{krafka2016eye} which helped me develop my understanding of how datasets are processed, and the structure of machine learning models built for these tasks. This model uses a Convolutional Neural Network which can achieve a prediction error of $1.71\text{cm}$ on mobile devices, and $2.53\text{cm}$ on tablet devices without the need for calibration. When a calibration step was included, the error can be reduced to $1.34\text{cm}$ and $2.12\text{cm}$ respectively. 
+
+The model itself is made up of three convolutional neural networks, see Figure \ref{fig:itracker-model} , two with shared weights trainied on cropped images from the left and right eyes, and one for the face. The model also takes in a binary mask of where the face is located in the image. These are then used to predict where on the screen the user is looking. As mentioned earlier, this model can achieve a high degree of accuracy. Furthermore, it was trained on a large dataset of over 1450 participants, meaning it is more robust to variations in lighting conditions, skin tone, and head position. 
+
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[scale=0.3]{../assets/iTracker-network.png}
+    \end{center}
+    \caption{The structure of the iTracker model, taken from ``Eye Tracking for Everyone'', 2016 \cite{krafka2016eye}}
+    \label{fig:itracker-model}
+\end{figure}
+
+\subsection{Recurrent CNN for Gaze Estimation}
+
+I also looked at some papers perfoming a different, yet related task. Namely Gaze Estimation \cite{palmero2018recurrent}, which estimates a vector representing where the user is looking in 3d space. However, as this does not provide information about where they are looking on the screen without estimating both the users and the devices position in 3d space, it's not very helpful in my use case. 
+
+\subsection{Eye Gaze Tracking With a Web Camera in a Desktop Environment} 
+
+Another paper I looked at as part of my research for this project describes using a web-cam to predict gaze location \cite{yiuming2015eyegazetracking}. Their model achieved an average accuracy of approximately $\ang{1.28}$ without any head movement, and $\ang{2.27}$ with minor head movement. 
+
+Instead of using machine learning for this paper, the authors instead opted for a computer vision based approach. Firstly, the eye region is detected and cropped, the center of the iris, and the corner of the eye closest to the nose are then located. They use this information to produce a vector describing the eye. This information is then used to calibrate the system, and once calibration is complete, the eye region information is then used to predict head pose. Finally, the head pose estimation information and the eye vector are then integrated to provide a location on the screen. 
+
+This method provides a means of determining gaze location which is robust to light changes, and which does not require the use of computationally complex machine learning algorithms. 
+
+\section{Software Development}\label{sec:software-dev}
+
+I will build two applications. One hosted on the web browser which will be responsible for using the eye tracking model to highlight the last paragraph in a text, and another which will host the model. 
+
+The model will use a convolutional network design, as they are very effective for image based regression tasks thanks to their ability to capture spatial hierarchies and local patterns in data. 
+
+I began building the browser extension by targeting firefox, as it's support for the manifest V2 API makes extension development much easier. 
+
+This API allows developers to easily modify the Document Object Model (DOM) of the webpage during runtime. However, in most major browsers, it's being deprecated in favor of Manifest V3. This API adds more features, but also introduces a cap on the number of modifications that can be made to the DOM. This was allegedly introduced to make the development of Ad-Blocking plugins harder by Google \cite{frisbe2022building}. This API has become the standard browser extension API for all Chromium based web browsers, which make up a majority of the most commonly used browsers on the web today. 
+
+In order to make the browser extension available to as many users as possible, I decided to build the browser extension using Plasmo \cite{plasmo}. This framework enables developers to quickly build cross platform browser extensions. It supports all of the major browsers, and the new Manifest V3 API. 
+
+\section{Datasets}\label{sec:datasets}
+
+So far, I have selected a handful of datasets which I plan on using to train my model. These include Gazecapture \cite{krafka2016eye}, MPII-Gaze \cite{zhang15cvpr}, and ETH-X Gaze \cite{zhang2020ethxgaze}. 
+
+I have selected these datasets in hope that my model will work on a variety of devices, including desktop computers, laptops, and mobile devices, on a variety of subjects, in a variety of lighting conditions. 
+
+I have opted to use a combination of these three datasets in order to help the model work in a variety situations. For example, when a user is sat at their desk, or using their phone while in public, the image of the user will be very different, and the model will have to understand how to compensate for to it.  
+
+This section will discuss the characteristics of each dataset, and why I have chosen to use it. 
+
+\subsection{Gazecapture}
+
+Gazecapture \cite{krafka2016eye} is a crowd-sourced dataset captured on participants mobile devices. It has over 1450 participants, and they were all encouraged to move around as the data was captured. 
+
+It consists of a set of frames stored as a set of images to prevent compression artifacts, and a set of labels recording the devices orientation in 3D space using the gyroscope, and the gaze location, among other attributes used in the pre-processing step. The iTracker model, see Section \ref{sec:itracker}, which was trained on this dataset, also requires an additional pre-processing step. The code for this pre-processing is available at \url{https://phi-ai.buaa.edu.cn/Gazehub/}. This step crops the images according to the dataset metadata, and produces a set of frames, each with the participants left, and right eye, their face, and a binary mask of where the face is in the full image. This is then used by the model to train it to predict where a user is looking on the screen. 
+
+This dataset was captured using Amazon Mechanical Turk \cite{mturk} to find participants. This service allows researchers access to a large workforce who are paid to complete tasks which build large datasets with participants of a variety of backgrounds. 
+
+\subsection{MPII-Gaze}
+
+The MPII Gaze dataset is comprised of participants using their laptop. Every so-often, a set of dots would appear on their screen while they were using it and they were asked to focus on these dots while the camera captures images of them. It has a fewer participants than gazecapture, but as the images were taken over a longer period, and in different settings, the images have greater variety in lighting conditions.  
+
+\subsection{ETH-X Gaze}
+
+ETH-X gaze takes a different approach to datasets for gaze mapping. The other datasets provide a set of images from a single camera, and a set of points where the participants were asked to look. ETH-X Gaze instead provides a set of images from multiple cameras, each with a different perspective of the participant. This helps the machine learning model better understand how variations in perspective impact gaze location predictions. 
+
+\section{Project Plan}
+
+In order to keep track of my progress in this project, I have created a Gantt chart, figure \ref{fig:gantt-chart}  to describe when I plan on having various tasks completed by. 
+\begin{figure*}[h]
+    \begin{center}
+        \includegraphics[scale=0.5]{../assets/project-plan-gantt-chart.png}
+    \end{center} 
+    \caption{A gantt chart describing the plan for the development of the project}
+    \label{fig:gantt-chart}
+\end{figure*}
+
+\subsection{Deliverables}
+
+As explored in section \ref{sec:software-dev} I plan on delivering two peices of software as part of this project. A web browser extension, and an application hosting the machine learning model. 
+
+The web browser extension will handle the core logic of the application, such as taking pictures of the users from their webcams, determining the last paragraph to be read by the user, and highlighting the selected paragraph. I plan on building it in such a way that it is accessible to as many users as possible. From my research, I found that the easiest way to achieve this, is by using a framework called plasmo \cite{plasmo}. This framework enables developers to rapidly create and deploy browser extensions across all of the most widely used browsers, such as Firefox, Chrome, Edge, and Opera.  
+
+The second part of this project is a peice of software which will host the machine learning model. This application will be written in the Rust programming language, as I'm very familiar with it, and it's very performant, while still offering the comforts of high level programming languages. This application will act as an application programming interface, enabling the web browser to detect where the user is looking on the screen without running the machine learning model on the browser itself. 
+
+
+\section{Validation}
+
+In order to validate the machine learning model, I plan on using euclidean distance (Equation \ref{eq:euclidean-distance}) between the predicted points, and the ground truth points. I will create a smaller subset of the training data, which will not be used for training and will instead run the model on each image in this set, and comparing its prediction to the known points. 
+
+\begin{figure}
+    \begin{equation}
+        d(a, b) = \sqrt{(b_x - a_x)^2 + (b_y - a_y)^2}
+    \end{equation}
+    \label{eq:euclidean-distance}
+    \caption{Calculate the euclidean distance between point $a$ and $b$}
+\end{figure}
+
+The software itself will be verified by going through each of my requirements, which are outlined in section \ref{sec:requirements}, and seeing if my software meets the requirement. 
+
+\section{Requirements Analysis}\label{sec:requirements}
+% what will you deliver? 
+% does it meed the needs of target group 
+% what do the target group need
+% how would an ideal system meet their needs 
+% how does your work contribute to this? 
+% what do you expect to achieve within the given time 
+% what will you not achieve 
+
+
+\subsection{Requirements}
+
+This section outlines the requirements of the projects. I have split the requirements into two kinds, core objectives, and stretch objectives. Core objectives refer to features of the application which are necessary for the system to function as expected. 
+
+\subsubsection{Gaze Mapping Software}
+
+\textbf{Core Objectives}
+\begin{itemize}
+    \item Predict where a user is looking on a screen from an image taken from their web-cam or front facing camera so the browser extension can detect which paragraph is currently being looked at  
+    \item Work in a variety of lighting conditions so the user can expect the software to work in any environment
+    \item Work with a variety of head poses so the software will work regardless of the users environment 
+    \item Work on both mobile and desktop devices so the software works on many devices 
+    \item Predict gaze location within approximately a 2.5cm radius of the true location so the browser extension can accurately distinguish between paragraphs currently being read, and those that have already been read, or are still to be read
+    \item Be able to receive and decrypt images from the browser extension to ensure information is not shared unwittingly with any third parties  
+    \item Be able to encrypt and send gaze location predictions to the browser extension so no user information is shared with external agents 
+\end{itemize}
+
+\textbf{Stretch Objectives}
+
+\begin{itemize}
+    \item Predict gaze locations within a 1cm radius of the true location so the software may detect lines or even words
+\end{itemize}
+
+\subsubsection{Web Browser Extension}
+
+\textbf{Core Objectives}
+
+\begin{itemize}
+    \item The browser extension should work on Chrome, Firefox, Edge, Brave, Opera so its accessible to as many users as possible 
+    \item The browser extension should be compatible with both the manifest V2 API so firefox users are able to use it 
+    \item The browser extension should be compatible with the manifest V3 API for the other browsers 
+    \item Should take a picture from the users webcam whenever the current tab is taken out of focus, for example, when the user switches tabs or changes windows to be used by the machine learning model 
+    \item Should encrypt the image before transmitting it to the software hosting the gaze mapping model to ensure security of user information 
+    \item Should receive and decrypt the gaze location from the software hosting the gaze mapping model 
+    \item Should be able to determine the bounding boxes of all paragraph elements in the webpage in relation to the current viewport using HTML semantics, used by the extension to determine which paragraph needs to be highlighted 
+    \item Should be able to quickly revoke permissions for the extension to use the camera so that if the user wants to revoke permissions quickly for whatever reason, they can 
+    \item Should be able to customize the appearance of the highlight around a paragraph so that it is customizable 
+\end{itemize}
+
+\textbf{Stretch Objectives}
+
+\begin{itemize}
+    \item Could use a computer vision system to detect bounding boxes of paragraphs so the extension will work on pages which don't use HTML to render information such as pdfs 
+    \item Extension should also work on apples safari web browser to allow more users to access the project  
+\end{itemize}
 
 \chapter{Professional and Ethical Considerations}
 
@@ -98,178 +311,102 @@ The project will be developed with the utmost care and respect for the academic 
 
 As part of my duty to the profession, I commit to uphold the reputation of the profession by accepting personal responsibility and will ensure that no actions will harm its standing. This project will be dedicated to taking positive steps to enhance the professional standards of the profession and actively contributing to upholding the reputation of BCS. I will conduct myself with integrity and respect in all professional relationships with BCS members and others. Furthermore, I will be committed to fostering a supportive environment by encouraging and assisting others to uphold the same goals. 
 
+\chapter{Progress Log}
+
+\section{Meetings}
+
+So far, I have only had three meetings with my supervisor, as she was unreachable for the month of October. 
+
+Our first meeting on the $\nth{25}$ of September 2023 involved myself outlining, and discussing the feasibility of my project. She also informed me of the need for an ethics application in order to use the datasets I need to train the model, and offered some advice on how to go about completing the application. 
+
+I met with my supervisor a week later, on the $\nth{2}$ of October 2023. It us looking at my ethics application, and discussing what could be improved, and what further work I would need to do on it to get it accepted as quickly as possible. 
+
+Our next meeting wasn't until the $\nth{9}$ of November 2023, as my supervisor was out of the country and therefore unreachable. For this meeting I was asked to write a project plan, which was evaluated by my supervisor, and found that it needed some work. 
+
+I also met with my supervisor on the $\nth{15}$ of November 2023 in order to get feedback on my interim report. 
+
+\section{Interim Log}
+
+\begin{itemize}
+    \item 2023-06-02 Begun preliminary reading 
+    \item 2023-08-01 Begun work on web extension 
+    \item 2023-08-02 Looked at other peoples implementations of gaze mapping software \& tried item to detect paragraphs in the viewport on a webpage 
+    \item 2023-08-03 Performance improvements to paragraph detection on webpage 
+    \item 2023-08-06 Changed how paragraph detection works 
+    \item 2023-08-07 Started work on my own model for gaze mapping 
+    \item 2023-08-20 Migrated browser extensions to Plasmo framework 
+    \item 2023-09-12 Tried to build a dataset loader, encountered difficulties as I haven't been given ethical approval to use datasets yet, so I'm basing it off the description of the dataset
+    \item 2023-09-20 Sent an email to Temitayo, regarding potentially acting as my supervisor
+    \item 2023-09-22 Did some more reading \& work on ethics application  
+    \item 2023-09-25 Spoke to Temitayo about project proposal, discussed the need for an
+    \item ethics application, agreed to act as my supervisor 
+    \item 2023-10-02 Meeting with Temitayo about the ethical application, shared feedback on my application 
+    \item 2023-10-11 Started on interim report 
+    \item 2023-10-20 Tried to get iTracker model to train on my local machine using a small custom dataset 
+    \item 2023-10-31 Submitted ethics application \& ethics application returned for revision
+    \item 2023-11-08 Submitted revised ethics application 
+    \item 2023-11-13 More work on interim report, includes more background reading, 
+\end{itemize}
+
+\section{Progress to Date}
+
+As of the submission of this report, I am currently awaiting ethics approval to use the datasets I discussed in section \ref{sec:datasets}. I have experimented with attempting to train others models on a small custom dataset, made up of images of myself. This has enabled me to test how the iTracker model \cite{krafka2016eye}, seen in section \ref{sec:itracker} functions. 
+
+I have also experimented with the plasmo framework to develop a cross platform browser extension. So far, I have managed to create a simple extension which attaches to a browser, and writes a message to the browser console. As I have little experience with browser extension development, I am yet to attempt anything more complex. However, the reading I have done so far, \cite{frisbe2022building} has helped me develop my conceptual understanding of how the browser works. 
+
 \section{Ethical Application}
 
 As part of this project, I have submitted an ethics application to ensure all the work I plan on doing is done in a manner where the rights of the participants are respected. The application assigned my project a low risk level, however, as of \today, I am yet to receive approval. 
 
-\chapter{Methodology}
+My project description is attached as part of this report in Appendix \ref{sec:ethics-app}. 
 
-\section{Background Reading}
+\appendix
+
+\chapter{Project Proposal}
+
+\section*{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
+
+\subsection*{Description}
+My project seeks to build a machine learning model which takes an image from a users camera, such as their front facing camera on their phone, or the webcam on their laptop, and predicts where they are looking on the screen. Using this information, a web browser extension will bookmark the last paragraph the user was looking at before switching tabs, or otherwise causing the piece of text to go out of focus. Once they bring the text back into focus, they should be able to immediately view where they were up to in the text
+
+\vspace{0.5cm}
 
 \noindent
-In literature, terminology for eye tracking is used very inconsistently. For example, the phrase ``Gaze Estimation'' can be used to describe the 3 dimentional directional vector showing a users gaze direction in the world. In this paper, I use the phrase ``Gaze Mapping'' to describe the process of taking an image of the user and predicting a set of 2 dimentional coordinates which represent an area on the screen where the user is currently focussed on. The phrase ``Eye tracking'' may also be used to describe this process. 
+Supervised by \textbf{Dr Temi Olugbade} 
 
-I could not find any applications which deliver an automated paragraph level bookmarking system using eye tracking to suppliment this work, so my background reading mostly focussed on existing machine learning models designed for gaze mapping. However, I was able to find a study \cite{barzvi2020eyetrackingdigialreading} using eye tracking to compare how poor and typical readers interact with text. 
+\vspace{0.5cm}
 
-
-\subsection{iTracker}\label{sec:itracker}
-
-As part of my background reading, I have looked at machine learning models performing gaze mapping in order to develop my knowledge of how existing approaches work. This includes the \verb|iTracker| model \cite{krafka2016eye} which helped me develop my understanding of how datasets are processed, and the structure of machine learning models built for these tasks. This model uses a Convolutional Neural Network which can achieve a prediction error of $1.71\text{cm}$ on mobile devices, and $2.53\text{cm}$ on tablet devices without the need for calibration. When a calibration step was included, the error can be reduced to $1.34\text{cm}$ and $2.12\text{cm}$ respectively. 
-
-The model itself is made up of three convolutional neural networks, see Figure \ref{fig:itracker-model} , two with shared weights trainied on cropped images from the left and right eyes, one for the face. The model also takes in a binary mask of where the face is located in the image. These are then used to predict where on the screen the user is looking. As mentioned earlier, this model can achieve a high degree of accuracy. Furthermore, it was trained on a large dataset of over 1450 participants, meaning it is more robust to variations in lighting conditions, skin tone, and head position. 
-
-\begin{figure}[h]
-    \begin{center}
-        \includegraphics[scale=0.3]{../assets/iTracker-network.png}
-    \end{center}
-    \caption{The structure of the iTracker model, taken from ``Eye Tracking for Everyone'', 2016 \cite{krafka2016eye}}
-    \label{fig:itracker-model}
-\end{figure}
-
-\subsection{Recurrent CNN for Gaze Estimation}
-
-I also looked at some papers perfoming a different, yet related task. Namely Gaze Estimation \cite{palmero2018recurrent}, which estimates a vector representing where the user is looking in 3d space. However, as this does not provide information about where they are looking on the screen without estimating both the users and the devices position in 3d space, it's not very helpful in my use case. 
-
-\subsection{Eye Gaze Tracking With a Web Camera in a Desktop Environment} 
-
-Another paper I looked at as part of my research for this project describes using a web-cam to predict gaze location \cite{yiuming2015eyegazetracking}. Their model achieved an average accuracy of aprroximately $\ang{1.28}$ without any head movement, and $\ang{2.27}$ with minor head movement. 
-
-Instead of using machine learning for this paper, the authors instead opted for a computer vision based approach. Firstly, the eye region is detected and cropped, the center of the iris, and the corner of the eye closest to the nose are then located. They use this information to produce a vector describing the eye. This information is then used to calibrate the system, and once calibration is complete, the eye region information is then used to predict head pose. Finally, the head pose estimation information and the eye vector are then integrated to provide a location on the screen. 
-
-This method provides a means of determining gaze location which is robust to light changes, and which does not require the use of computationally complex machine learning algorithms. 
-
-\section{Software Development}\label{sec:software-dev}
-
-I will build two applications. One hosted on the web browser which will be responsible for using the eye tracking model to highlight the last paragraph in a text, and another which will host the model. 
-
-The model will use a convolutional network design, as they are very effective for image based regression tasks thanks to their ability to capture spatial hierarchies and local patterns in data. 
-
-I began building the browser extension by targeting firefox, as it's support for the manifest V2 API makes extension development much easier. 
-
-This API allows developers to easily modify the Document Object Model (DOM) of the webpage during runtime. However, in most major browsers, it's being depricated in favor of Manifest V3. This API adds more features, but also introduces a cap on the number of modifications that can be made to the DOM. This was allegidly introduced to make the development of Ad-Blocking plugins harder by Google \cite{frisbe2022building}. This API has become the standard browser extension API for all Chromium based web browsers, which make up a majority of the most commonly used browsers on the web today. 
-
-In order to make the browser extension available to as many users as possible, I decided to build the browser extension using Plasmo \cite{plasmo}. This framework enables developers to quickly build cross platform browser extensions. It supports all of the major browsers, and the new Manifest V3 API. 
-
-\section{Datasets}
-
-So far, I have selected a handful of datasets which I plan on using to train my model. These include Gazecapture \cite{krafka2016eye}, MPII-Gaze \cite{zhang15cvpr}, and ETH-X Gaze \cite{zhang2020ethxgaze}. 
-
-I have selected these datasets in hope that my model will work on a variety of devices, including desktop computers, laptops, and mobile devices, on a variety of subjects, in a variety of lighting conditions. 
-
-I have opted to use a combination of these three datasets in order to help the model work in a variety situations. For example, when a user is sat at their desk, using their phone while in public, the image of the user will be very different, and the model will have to understand how to compensate for to it.  
-
-This section will discuss the characteristics of each dataset, and why I've chosen to use it. 
-
-\subsection{Gazecapture}
-
-Gazecapture \cite{krafka2016eye} is a crowdsourced dataset captured on participants mobile devices. It has over 1450 partipants, and they were all encouraged to move around as the data was captured. 
-
-It consists of a set of frames stored as a set of images to prevent compression artifacts, and a set of labels recording the devices orientation in 3D space using the gyroscope, and the gaze location, among other attributes used in the pre-processing step. The iTracker model, see Section \ref{sec:itracker}, which was trained on this dataset, also requires an additional pre-processing step. The code for this pre-processing is available at \url{https://phi-ai.buaa.edu.cn/Gazehub/}. This step crops the images according to the dataset metadata, and produces a set of frames, each with the participants left, and right eye, their face, and a binary mask of where the face is in the full image. This is then used by the model to train it to predict where a user is looking on the screen. 
-
-This dataset was captured using Amazon Mechanical Turk \cite{mturk} to find participants. This service allows researchers access to a large workforce who are paid to complete tasks which build large datasets with participants of a variety of backgrounds. 
-
-\subsection{MPII-Gaze}
-
-The MPII Gaze dataset is comprised of participants using their laptop. Every so-often, a set of dots would appear on their screen while they were using it and they were asked to focus on these dots while the camera captures images of them. It has a fewer participants than gazecapture, but as the images were taken over a longer period, and in different settings, the images have greater variety in lighting conditions.  
-
-\subsection{ETH-X Gaze}
-
-ETH-X gaze takes a different approach to datasets for gaze mapping. The other datasets provide a set of images from a single camera, and a set of points where the participants were asked to look. ETH-X Gaze instead provides a set of images from multiple cameras, each with a different perspective of the participant. This helps the machine learning model better understand how variations in perspective impact gaze location predictions. 
-
-\section{Project Plan}
-
-\section{Requirements Analysis}
-% what will you deliver? 
-% does it meed the needs of target group 
-% what do the target group need
-% how would an ideal system meet their needs 
-% how does your work contribute to this? 
-% what do you expect to achieve within the given time 
-% what will you not achieve 
-
-\subsection{Deliverables}
-
-As explored in section \ref{sec:software-dev} I plan on delivering two peices of software as part of this project. A web browser extension, and an application hosting the machine learning model. 
-
-The web browser extension will handle the core logic of the application, such as taking pictures of the users from their webcams, determining the last paragraph to be read by the user, and highlighting the selected paragraph. I plan on building it in such a way that it is accessible to as many users as possible. From my research, I found that the easiest way to achieve this, is by using a framework called plasmo \cite{plasmo}. This framework enables developers to rapidly create and deploy browser extensions across all of the most widely used browsers, such as Firefox, Chrome, Edge, and Opera.  
-
-The second part of this project is a peice of software which will host the machine learning model. This application will be written in the Rust programming language, as I'm very familiar with it, and it's very performant, while still offering the comforts of high level programming languages. This application will act as an application programming interface, enabling the web browser to detect where the user is looking on the screen without running the machine learning model on the browser itself. 
-
-
-\subsection{Requirements}
-
-This section outlines the requirements of the projects. I have split the requirements into two kinds, core objectives, and stretch objectives. Core objectives refer to features of the application which are necessary for the system to function as expected. 
-\subsubsection{Gaze Mapping Software}
-
-\textbf{Core Objectives}
-\begin{itemize}
-    \item Predict where a user is looking on a screen from an image taken from their web-cam or front facing camera so the browser extension can detect which paragraph is currently being looked at  
-    \item Work in a variety of lighting conditions so the user can expect the software to work in any environment
-    \item Work with a variety of head poses so the software will work regardless of the users environment 
-    \item Work on both mobile and desktop devices so the software works on many devices 
-    \item Predict gaze location within approximately a 2.5cm radius of the true location so the browser extension can accurately distinguish between paragraphs currently being read, and those that have already been read, or are still to be read
-    \item Be able to receive and decrypt images from the browser extension to ensure information is not shared unwittingly with any third parties  
-    \item Be able to encrypt and send gaze location predictions to the browser extension so no user information is shared with external agents 
-\end{itemize}
-
-\textbf{Stretch Objectives}
+\subsection*{Aims}
 
 \begin{itemize}
-    \item Predict gaze locations within a 1cm radius of the true location so the software may work on 
+    \item Build, test and validate a machine learning model which maps images of users to a set of coordinates that represent where on the screen the user is looking 
+    \item Use the information gained by this model to automatically detect which paragraph a user is reading at any given time 
+    \item Develop a browser extension which works on all major browsers which highlights paragraphs on the screen whenever the user switches tabs 
+    \item Develop an secondary application in Rust which hosts the machine learning model and allows for communication with the browser extension 
 \end{itemize}
 
-\subsubsection{Web Browser Extension}
+\subsection*{Relevance}
 
-\textbf{Core Objectives}
+This project incorporates web development, and machine learning, to hopefully improve the experience of reading on digital devices. It will definitely challenge my skills with AI related tasks, however, I already have experience working with such projects. 
 
-\begin{itemize}
-    \item The browser extension should work on Chrome, Firefox, Edge, Brave, Opera
-    \item The browser extension should be compatible with both the manifest V2 API for Firefox
-    \item The browser extension should be compatible with the manifest V3 API for the other browsers 
-    \item Should take a picture from the users webcam whenever the current tab is taken out of focus, for example, when the user switches tabs or changes windows 
-    \item Should encrypt the image before transmitting it to the software hosting the gaze mapping model 
-    \item Should receive and decrypt the gaze location from the software hosting the gaze mapping model 
-    \item Should be able to determine the bounding boxes of all paragraph elements in the webpage in relation to the current viewport using HTML semantics
-    \item Should be able to quickly revoke permissions for the extension to use the camera 
-    \item Should be able to customize the appearance of the highlight around a paragraph 
-\end{itemize}
+\chapter{Ethics Application}\label{sec:ethics-app}
 
-\textbf{Stretch Objectives}
+\section*{Project Description}
 
-\begin{itemize}
-    \item Could use a computer vision system to detect bounding boxes of paragraphs so the extension will work on pages which don't use HTML to render information such as pdfs 
-    \item Extension should also work on apples safari web browser  
-\end{itemize}
+The aim of this project is to investigate the use of machine learning and face images captured using in-built laptop/phone cameras to track reading progress within text in a web browser so as to enable bookmark of the last paragraph being read when browser tabs or windows are switched.
 
+This project will involve building and evaluating machine learning models for gaze tracking and analysis based on 3 secondary datasets, GazeCapture, MPIIGaze, and ETHXGaze.The GazeCapture \cite{krafka2016eye} dataset was captured from participants while they focused on marked points on their phone/tablet screen at home. This dataset includes face images, gaze target positions, and metadata, e.g. device screen orientation.It is accessible via a website \url{https://gazecapture.csail.mit.edu}, a registration form, and adherence to a license that stipulates no sharing with any third party and research use only.
 
+MPIIGaze \cite{zhang15cvpr} was also captured in similar settings as GazeCapture. However, the data was captured with the participant's laptop, and the gaze focus tasks for this dataset appeared to the participant at random times during normal use of their laptop. The dataset includes cropped eye images, positions of eye landmarks, gaze target positions, associated head poses and directions, and camera parameters.It will be accessed via the website \url{https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/research/gaze-based-human-computer-interaction/appearance-based-gaze-estimation-in-the-wild/}, and it comes with a license that requires non-commercial use only.
 
-\chapter{Interim Log}
+The ETHX-Gaze dataset \cite{zhang2020ethxgaze} was captured in lab settings using multiple external cameras. The dataset includes face images, gaze target positions, and lighting conditions. The dataset will be accessed via the website \url{https://ait.ethz.ch/xgaze}, a registration form, and agreement to a license that requires non-commercial use.
 
-\begin{verbatim}
-[2023-06-02] Begun preliminary reading 
-[2023-08-01] Begun work on web extension 
-[2023-08-02] Looked at other peoples implementations of gaze mapping software & tried 
-to detect paragraphs in the viewport on a webpage 
-[2023-08-03] Performance improvements to paragraph detection on webpage 
-[2023-08-06] Changed how paragraph detection works 
-[2023-08-07] Started work on my own model for gaze mapping 
-[2023-08-20] Migrated browser extensions to Plasmo framework 
-[2023-09-12] Tried to build a dataset loader, encountered difficulties as 
-I haven't been given ethical approval to use datasets yet, so I'm basing it off 
-the description of the dataset
-[2023-09-20] Sent an email to Temitayo, regarding potenitally acting as my supervisor
-[2023-09-22] Did some more reading & work on ethics application  
-[2023-09-25] Spoke to Temitayo about project proposal, discussed the need for an
-ethics application, agreed to act as my supervisor 
-[2023-10-02] Meeting with Temitayo about the ethical application, shared feedback on 
-my application 
-[2023-10-11] Started on interim report 
-[2023-10-20] Tried to get iTracker model to train on my local machine using a small custom
-dataset 
-[2023-10-31] Submitted ethics application & ethics application returned for revision
-[2023-11-08] Submitted revised ethics application 
-[2023-11-13] More work on interim report, includes more background reading, 
-\end{verbatim}
+The machine learning model developed from these datasets will be used to build a software deployed on a local computer.The software will take face images via the device camera, triggered by events on the linked web browser (e.g. switching tabs), and send inference of the user's gaze target location on the given web page to the browser for bookmarking.This web browser extension software will only be validated on myself and my supervisor; no tests with primary research participants will be carried out. The validation will involve the subject (me or my supervisor) reading a selection of texts, e.g. on computer science topics, on a laptop (browser). Face images of the subject will be captured and processed using the custom software described above. The images captured will be discarded and not stored after processing is complete. However, face images from me and processed derivatives will be saved for use in presentations and publications (e.g. my dissertation) to facilitate valuable description of the software and its validation.
+
+The datasets are well used in the research community, e.g. in \cite{Valliappan2020accelerating}, \cite{seonwook2019fewshot} . My use aligns with the purpose for which they were originally collected (gaze tracking). The datasets will be stored on an external hard drive, which will be software-encrypted and not shared with any third party, and on University of Sussex OneDrive. The data will also be stored and processed on my personal laptop, which is password protected and will not be shared with any third party, as well as on University of Sussex computers. Processing will be done using standard statistics and machine learning methods and software development kits.
+
 
 \printbibliography
+
+
 \end{document}
