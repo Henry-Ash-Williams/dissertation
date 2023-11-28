@@ -1,0 +1,7 @@
+- [ ] Come up with list of models I've looked at 
+    - Make a presentation (weekly)
+    - 3 slides
+    - include justification for iTracker 
+- Develop browser extension & aux software 
+    - Individual components in extension added to gantt chart for project management. 
+- Start writing 
