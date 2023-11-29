@@ -1,11 +1,3 @@
-@misc{mturk,
-  author = {Amazon},
-  title = {Mechanical Turk},
-  year = {2005},
-  url = {https://www.mturk.com/},
-  urldate = {2023-11-14}
-}
-
 @article{barzvi2020eyetrackingdigialreading,
   author  = {Bar-Zvi Shaked, Karin and Shamir, Adina and Vakil, Eli},
   journal = {Reading and Writing},
@@ -34,7 +26,6 @@
   year    = {2021}
 }
 
-% Gazecapture
 @book{frisbe2022building,
   title     = {Building Browser Extensions: Create Modern Extensions for Chrome, Safari, Firefox, and Edge},
   author    = {Matt Frisbie},
@@ -45,6 +36,7 @@
   url       = {http://gen.lib.rus.ec/book/index.php?md5=7E63E6249A822FB3B8B5F6D63706F6E2}
 }
 
+% Gazecapture
 @article{kar2017review,
   author  = {Kar, Anuradha and Corcoran, Peter},
   journal = {IEEE Access},
@@ -65,6 +57,33 @@
   primaryclass  = {cs.CV}
 }
 
+@misc{mturk,
+  author  = {Amazon},
+  title   = {Mechanical Turk},
+  year    = {2005},
+  url     = {https://www.mturk.com/},
+  urldate = {2023-11-14}
+}
+
+@inproceedings{ohno2002freegaze,
+  author    = {Ohno, Takehiko and Mukawa, Naoki and Yoshikawa, Atsushi},
+  title     = {FreeGaze: A Gaze Tracking System for Everyday Gaze Interaction},
+  year      = {2002},
+  isbn      = {1581134673},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/507072.507098},
+  doi       = {10.1145/507072.507098},
+  abstract  = {In this paper we introduce a novel gaze tracking system called FreeGaze, which is designed for the use of everyday gaze interaction. Among various possible applications of gaze tracking system, Human-Computer Interaction (HCI) is one of the most promising elds. However, existing systems require complicated and burden-some calibration and are not robust to the measurement variations. To solve these problems, we introduce a geometric eyeball model and sophisticated image processing. Unlike existing systems, our system needs only two points for each individual calibration. When the personalization nishes, our system needs no more calibration before each measurement session. Evaluation tests show that the system is accurate and applicable to everyday use for the applications.},
+  booktitle = {Proceedings of the 2002 Symposium on Eye Tracking Research \& Applications},
+  pages     = {125,132},
+  numpages  = {8},
+  keywords  = {gaze interaction, the eyeball model, FreeGaze, Gaze tracing system},
+  location  = {New Orleans, Louisiana},
+  series    = {ETRA '02}
+}
+
+% ETH-XGaze
 @misc{palmero2018recurrent,
   title         = {Recurrent CNN for 3D Gaze Estimation using Appearance and Shape Cues},
   author        = {Cristina Palmero and Javier Selva and Mohammad Ali Bagheri and Sergio Escalera},
@@ -72,15 +91,49 @@
   eprint        = {1805.03064},
   archiveprefix = {arXiv},
   primaryclass  = {cs.CV}
-}
+} 
 
-% ETH-XGaze
 @misc{plasmo,
   author       = {Plasmo},
   howpublished = {Github},
   title        = {Plasmo Browser Extension Framework },
   year         = {2022}
-} 
+}
+
+
+@article{rakhmatulin2020deep,
+  title    = {Deep Neural Networks for Low-Cost Eye Tracking},
+  journal  = {Procedia Computer Science},
+  volume   = {176},
+  pages    = {685-694},
+  year     = {2020},
+  note     = {Knowledge-Based and Intelligent Information & Engineering Systems: Proceedings of the 24th International Conference KES2020},
+  issn     = {1877-0509},
+  doi      = {https://doi.org/10.1016/j.procs.2020.09.041},
+  url      = {https://www.sciencedirect.com/science/article/pii/S1877050920319360},
+  author   = {Ildar Rakhmatulin and Andrew T. Duchowski},
+  keywords = {eye tracking, deep learning in eye tracking, yolov3 in eye tracking, deep learning in gaze tracking},
+  abstract = {The paper presents a detailed analysis of modern techniques that can be used to track gaze with a webcam. We present a practical implementation of the most popular methods for tracking gaze. Various models of deep neural networks that can be involved in the process of online gaze monitoring are reviewed. We introduce a new eye-tracking approach where the effectiveness of using a deep learning method is significantly increased. Implementation is in Python where its application is demonstrated by controlling interaction with the computer. Specifically, a dual coordinate system is given for controlling the computer with the help of a gaze. The first set of coordinates-the position of the face relative to the computer, is implemented by detecting color from the infrared LED via the OpenCV library. The second set of coordinates-giving gaze position-is obtained via the YOLO (v3) package. A method of labeling the eyes is given, in which 3 objects are used to track gaze (to the left, to the right, and in the center).}
+}
+
+@article{seonwook2019fewshot,
+  author     = {Seonwook Park and
+                Shalini De Mello and
+                Pavlo Molchanov and
+                Umar Iqbal and
+                Otmar Hilliges and
+                Jan Kautz},
+  title      = {Few-shot Adaptive Gaze Estimation},
+  journal    = {CoRR},
+  volume     = {abs/1905.01941},
+  year       = {2019},
+  url        = {http://arxiv.org/abs/1905.01941},
+  eprinttype = {arXiv},
+  eprint     = {1905.01941},
+  timestamp  = {Tue, 11 Jul 2023 08:22:03 +0200},
+  biburl     = {https://dblp.org/rec/journals/corr/abs-1905-01941.bib},
+  bibsource  = {dblp computer science bibliography, https://dblp.org}
+}
 
 @misc{tobiiprofusion,
   author = {Tobii LTD},
@@ -90,6 +143,31 @@
   note   = {Accessed on 2023-11-03}
 }
 
+@article{valliappan2020accelerating,
+  author   = {Valliappan, Nachiappan
+              and Dai, Na
+              and Steinberg, Ethan
+              and He, Junfeng
+              and Rogers, Kantwon
+              and Ramachandran, Venky
+              and Xu, Pingmei
+              and Shojaeizadeh, Mina
+              and Guo, Li
+              and Kohlhoff, Kai
+              and Navalpakkam, Vidhya},
+  title    = {Accelerating eye movement research via accurate and affordable smartphone eye tracking},
+  journal  = {Nature Communications},
+  year     = {2020},
+  month    = {Sep},
+  day      = {11},
+  volume   = {11},
+  number   = {1},
+  pages    = {4553},
+  abstract = {Eye tracking has been widely used for decades in vision research, language and usability. However, most prior research has focused on large desktop displays using specialized eye trackers that are expensive and cannot scale. Little is known about eye movement behavior on phones, despite their pervasiveness and large amount of time spent. We leverage machine learning to demonstrate accurate smartphone-based eye tracking without any additional hardware. We show that the accuracy of our method is comparable to state-of-the-art mobile eye trackers that are 100x more expensive. Using data from over 100 opted-in users, we replicate key findings from previous eye movement research on oculomotor tasks and saliency analyses during natural image viewing. In addition, we demonstrate the utility of smartphone-based gaze for detecting reading comprehension difficulty. Our results show the potential for scaling eye movement research by orders-of-magnitude to thousands of participants (with explicit consent), enabling advances in vision research, accessibility and healthcare.},
+  issn     = {2041-1723},
+  doi      = {10.1038/s41467-020-18360-5},
+  url      = {https://doi.org/10.1038/s41467-020-18360-5}
+}
 
 @article{yiuming2015eyegazetracking,
   author  = {Cheung, Yiu-ming and Peng, Qinmu},
@@ -133,49 +211,3 @@
   year      = {2020},
   booktitle = {European Conference on Computer Vision (ECCV)}
 }
-
-@article{seonwook2019fewshot,
-  author       = {Seonwook Park and
-                  Shalini De Mello and
-                  Pavlo Molchanov and
-                  Umar Iqbal and
-                  Otmar Hilliges and
-                  Jan Kautz},
-  title        = {Few-shot Adaptive Gaze Estimation},
-  journal      = {CoRR},
-  volume       = {abs/1905.01941},
-  year         = {2019},
-  url          = {http://arxiv.org/abs/1905.01941},
-  eprinttype    = {arXiv},
-  eprint       = {1905.01941},
-  timestamp    = {Tue, 11 Jul 2023 08:22:03 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-1905-01941.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}
-
-@article{Valliappan2020accelerating,
-author={Valliappan, Nachiappan
-and Dai, Na
-and Steinberg, Ethan
-and He, Junfeng
-and Rogers, Kantwon
-and Ramachandran, Venky
-and Xu, Pingmei
-and Shojaeizadeh, Mina
-and Guo, Li
-and Kohlhoff, Kai
-and Navalpakkam, Vidhya},
-title={Accelerating eye movement research via accurate and affordable smartphone eye tracking},
-journal={Nature Communications},
-year={2020},
-month={Sep},
-day={11},
-volume={11},
-number={1},
-pages={4553},
-abstract={Eye tracking has been widely used for decades in vision research, language and usability. However, most prior research has focused on large desktop displays using specialized eye trackers that are expensive and cannot scale. Little is known about eye movement behavior on phones, despite their pervasiveness and large amount of time spent. We leverage machine learning to demonstrate accurate smartphone-based eye tracking without any additional hardware. We show that the accuracy of our method is comparable to state-of-the-art mobile eye trackers that are 100x more expensive. Using data from over 100 opted-in users, we replicate key findings from previous eye movement research on oculomotor tasks and saliency analyses during natural image viewing. In addition, we demonstrate the utility of smartphone-based gaze for detecting reading comprehension difficulty. Our results show the potential for scaling eye movement research by orders-of-magnitude to thousands of participants (with explicit consent), enabling advances in vision research, accessibility and healthcare.},
-issn={2041-1723},
-doi={10.1038/s41467-020-18360-5},
-url={https://doi.org/10.1038/s41467-020-18360-5}
-}
-

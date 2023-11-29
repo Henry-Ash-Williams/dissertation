@@ -1,40 +1,56 @@
 export {}
 
+import updateVisibleElements from "~getVisibleElements";
 
-function updateStyles(textElems: NodeList): void {
-    const visibleElements = [];
-    textElems.forEach((element: Element) => {
-        // element.style.border = isElementPartiallyInViewport(element) ? "1px solid blue" : "1px solid red";
+console.log("FocusFlow Loaded 🎉 !!");
 
-        if (isElementPartiallyInViewport(element)) {
-            visibleElements.push(element);
-        }
+if (document.URL === "file:///Users/henrywilliams/Documents/uni/dissertation/focusflow/test.html") {
+    console.log("Running in test environment");
+    const textElems = document.querySelectorAll('.box');
+
+    console.group("Visible elements");
+    updateVisibleElements(textElems, element => {
+        console.log(element.childNodes[0].innerHTML);
     }); 
-
-    console.group("visible titles: ");
-    visibleElements.forEach((element: Element) => {
-        try { 
-            console.log(element.childNodes[4].childNodes[0].childNodes[0].innerHTML);
-        } catch (e) {
-            return ;
-        }
-    });
     console.groupEnd();
+
+    document.addEventListener("scroll", _ => {
+        console.group("Visible elements");
+        updateVisibleElements(textElems, element => {
+            console.log(element.childNodes[0].innerHTML);
+        }); 
+        console.groupEnd();
+    });
+} else {
+    let n: number = 0; 
+    function getVisibilityState() {
+        return document.visibilityState; 
+    }
+
+    // Function to handle visibility change
+    function handleVisibilityChange() {
+        const visibilityState = getVisibilityState();
+
+        if (visibilityState === "visible") {
+            /* navigator.mediaDevices.getUserMedia({video: true})
+                .then(stream => {
+                    console.log(stream);
+
+                })
+                .catch(err => {
+
+                });*/ 
+            document.title = "Visible";
+            console.log(`Hidden page, #${n++}`);
+        } else {
+            document.title = "Hidden";
+            console.log(`Focused page, #${n++}`);
+        }
+    }
+
+    // Set up the event listener for visibility change
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Initial check for visibility state
+    handleVisibilityChange();
 }
-
-
-function isElementPartiallyInViewport(element: Element): boolean {
-    // Special bonus for those using jQuery
-    var rect = element.getBoundingClientRect();
-    var windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    var windowWidth = window.innerWidth || document.documentElement.clientWidth;
- 
-    var vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
-    var horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
- 
-    return vertInView && horInView;
-} 
-
-console.log("FocusFlow Loaded!!");
-const textElems = document.querySelectorAll('tr[class="athing"]');
-document.addEventListener("scroll", _ => { updateStyles(textElems); } );
