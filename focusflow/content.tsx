@@ -1,7 +1,13 @@
 import React from "react";
-
+const style = {
+  container: {
+    width: 100, 
+    height: 100, 
+    background: "red"
+  }
+}
 const UiElement = () => {
-  return <canvas id="canvas" width="640" height="480"></canvas>
+  return <div className="injected-by-focus-flow"></div>;
 }
 
 export default UiElement;

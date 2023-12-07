@@ -26,26 +26,19 @@ if (document.URL === "file:///Users/henrywilliams/Documents/uni/dissertation/foc
     function getVisibilityState() {
         return document.visibilityState; 
     }
-
+    let canvas = document.querySelector("#canvas");
     // Function to handle visibility change
     function handleVisibilityChange() {
         const visibilityState = getVisibilityState();
 
-        if (visibilityState === "visible") {
-            /* navigator.mediaDevices.getUserMedia({video: true})
+        if (visibilityState !== "visible") {
+            navigator.mediaDevices.getUserMedia({video: true})
                 .then(stream => {
-                    console.log(stream);
-
                 })
                 .catch(err => {
-
-                });*/ 
-            document.title = "Visible";
-            console.log(`Hidden page, #${n++}`);
-        } else {
-            document.title = "Hidden";
-            console.log(`Focused page, #${n++}`);
-        }
+                });
+        } 
+        
     }
 
     // Set up the event listener for visibility change

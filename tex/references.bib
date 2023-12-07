@@ -96,7 +96,9 @@
 @misc{plasmo,
   author       = {Plasmo},
   howpublished = {Github},
-  title        = {Plasmo Browser Extension Framework },
+  title        = {Plasmo Browser Extension Framework},
+  url          = {https://www.plasmo.com/},
+  urldate      = {2023-11-29},
   year         = {2022}
 }
 
@@ -169,6 +171,20 @@
   url      = {https://doi.org/10.1038/s41467-020-18360-5}
 }
 
+@article{wu2024eg-net,
+  title    = {EG-Net: Appearance-based eye gaze estimation using an efficient gaze network with attention mechanism},
+  journal  = {Expert Systems with Applications},
+  volume   = {238},
+  pages    = {122363},
+  year     = {2024},
+  issn     = {0957-4174},
+  doi      = {https://doi.org/10.1016/j.eswa.2023.122363},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0957417423028658},
+  author   = {Xinmei Wu and Lin Li and Haihong Zhu and Gang Zhou and Linfeng Li and Fei Su and Shen He and Yanggang Wang and Xue Long},
+  keywords = {Gaze estimation, Appearance-based method, EG-Net, Attention mechanism, Compound model scaling},
+  abstract = {Gaze estimation, which has a wide range of applications in many scenarios, is a challenging task due to various unconstrained conditions. As information from both full-face and eye images is instrumental in improving gaze estimation, many multiregion gaze estimation models have been proposed in recent studies. However, most of them simply use the same regression method on both eye and face images, overlooking that the eye region may contribute more fine-grained features than the full-face region, and the variation in the left and right eyes of an individual caused by head pose, illumination, and partially occluded eye may lead to inconsistent estimations. To address these issues, we propose an appearance-based end-to-end learning network architecture with an attention mechanism, named efficient gaze network (EG-Net), which employs a two-branch network for gaze estimation. Specifically, a base CNN is utilized for full-face images, while an efficient eye network (EE-Net), which is scaled up from the base CNN, is used for left- and right-eye images. EE-Net uniformly scales up the depth, width and resolution of the base CNN with a set of constant coefficients for eye feature extraction and adaptively weights the left- and right-eye images via an attention network according to its “image quality”. Finally, features from the full-face image, two individual eye images and head pose vectors are fused to regress the eye gaze vectors. We evaluate our approach on 3 public datasets, the proposed EG-Net model achieves much better performance. In particular, our EG-Net-v4 model outperforms state-of-the-art approaches on the MPIIFaceGaze dataset, with prediction errors of 2.41 cm and 2.76 degrees in 2D and 3D gaze estimation, respectively. It also yields a performance improvement to 1.58 cm on GazeCapture and 4.55 degrees on EyeDIAP dataset, with 23.4 % and 14.2 % improvement over prior arts on the two datasets respectively. The code related to this project is open-source and available at https://github.com/wuxinmei/EE_Net.git.}
+}
+
 @article{yiuming2015eyegazetracking,
   author  = {Cheung, Yiu-ming and Peng, Qinmu},
   journal = {IEEE Transactions on Human-Machine Systems},
@@ -204,7 +220,6 @@
   month     = {June},
   pages     = {4511-4520}
 }
-
 @inproceedings{zhang2020ethxgaze,
   author    = {Xucong Zhang and Seonwook Park and Thabo Beeler and Derek Bradley and Siyu Tang and Otmar Hilliges},
   title     = {ETH-XGaze: A Large Scale Dataset for Gaze Estimation under Extreme Head Pose and Gaze Variation},
