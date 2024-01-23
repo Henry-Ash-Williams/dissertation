@@ -17,3 +17,23 @@
 - Remember that you are not significant, stuff you think would be cool are not relevant to members of the public 
     - Think beyond yourself 
 - 
+
+
+04/01/24
+- For next meeting 18/01/24 
+    - Train on two datasets, evaluate using third 
+        - train on GC/MPII 
+        - evaluate on ethx 
+    - Come up with testing plan 
+    - Consider pre-trained network 
+    - Figure out how to interpret loss in training run 
+    - SLIDES!!! 
+    - Feedback on interim & how to use it to make dissertation better 
+
+18/01/24 
+- Offline experiments between multiple datasets 
+- Discuss time/memory requirements 
+    - take notes of bottlenecks 
+    - how to potenially improve performance while training 
+- Note code style of rust in diss. 
+- re-do project plan so its accurate with what I'm currently working on 
