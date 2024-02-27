@@ -63,3 +63,5 @@ __pycache__/*
 *.blg
 
 *.bcf
+
+focusflow/model-hosting/dlib/

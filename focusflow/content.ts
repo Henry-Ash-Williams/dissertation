@@ -26,18 +26,36 @@ if (document.URL === "file:///Users/henrywilliams/Documents/uni/dissertation/foc
     function getVisibilityState() {
         return document.visibilityState; 
     }
-    let canvas = document.querySelector("#canvas");
     // Function to handle visibility change
     function handleVisibilityChange() {
+        // file deepcode ignore FunctionDeclarationInBlock: <please specify a reason of ignoring this>
         const visibilityState = getVisibilityState();
 
-        if (visibilityState !== "visible") {
-            navigator.mediaDevices.getUserMedia({video: true})
-                .then(stream => {
-                })
-                .catch(err => {
-                });
-        } 
+        if (visibilityState === "hidden") {
+            console.log("Document no longer visible");
+            let simulatedGazeLocation = (() => {
+                const windowHeight: number = window.innerHeight || document.documentElement.clientHeight;
+                const windowWidth: number = window.innerWidth || document.documentElement.clientWidth;
+                return { 'x': Math.random() * windowWidth, 'y': Math.random() * windowHeight };
+            })(); 
+            console.log(simulatedGazeLocation)
+            let paragraphs = document.querySelectorAll('p'); 
+
+            updateVisibleElements(paragraphs, paragraph => {
+                const bbox = paragraph.getBoundingClientRect(); 
+
+                if (
+                    simulatedGazeLocation.x >= bbox.left && 
+                    simulatedGazeLocation.x <= bbox.right && 
+                    simulatedGazeLocation.y >= bbox.top && 
+                    simulatedGazeLocation.y <= bbox.bottom 
+                ) {
+                    paragraph.style.border = '2px solid red';
+                }
+            })
+        } else if (visibilityState === "visible") {
+            
+        }
         
     }
 
