@@ -101,12 +101,10 @@ class ITrackerModel(nn.Module):
         
         return x
 
-if __name__ == '__main__':
-    m = ITrackerModel()
-    feature = {"face":torch.zeros(3, 3, 224, 224),
-                "left":torch.zeros(3, 3, 224, 224),
-                "right":torch.zeros(3, 3, 224, 224),
-                "grid":torch.zeros(3, 1, 25, 25)
-              }
-    a = m(feature)
-    print(a)
+ITRACKER_DESKTOP_MODEL_PATH = "Iter_1_Itracker_mpii.pt"
+ITRACKER_MOBILE_MODEL_PATH = "Iter_20_Itracker_gazecapture.pt"
+
+itracker_desktop = ITrackerModel()
+itracker_desktop = itracker_desktop.load_state_dict(torch.load(ITRACKER_DESKTOP_MODEL_PATH))
+itracker_mobile = ITrackerModel()
+itracker_mobile = itracker_mobile.load_state_dict(torch.load(ITRACKER_MOBILE_MODEL_PATH))
