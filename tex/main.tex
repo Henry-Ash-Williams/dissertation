@@ -1,9 +1,124 @@
-\title{TODO: Figure out a title}
-\author{Henry Williams}
-\date{\today}
+\documentclass[twocolumn]{report}
+
+\newcommand{\mytitle}{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
+\newcommand{\myauthor}{Henry Ash Williams}
+\newcommand{\mydate}{\today}
+
+\title{\mytitle}
+\author{\myauthor}
+\date{\mydate}
+
+\usepackage[backend=bibtex]{biblatex}
+\usepackage[compact]{titlesec}
+\usepackage{kpfonts}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage[super]{nth}
+
+\addbibresource{references.bib}
 
 \begin{document}
-\maketitle
 
+\begin{titlepage}
+    \begin{center}
+        \vspace*{4cm}
+        {\huge\textbf{\mytitle}}
+
+        \vspace*{1cm}
+
+        {\Large\textbf{\myauthor}
+        
+        \vspace*{0.75cm}
+
+        \mydate}
+
+        \vspace*{2cm}
+
+        \includegraphics[scale=0.075]{../assets/UoS-logo.png}
+        
+        \vspace*{2cm}
+
+        {\Large BSc Computer Science with AI }
+
+        \vspace*{2cm}
+
+        {\large School of Engineering and Informatics 
+
+        Supervisor: Dr Temi Olugbade}
+
+
+
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\chapter{Introduction}
+
+
+\begin{itemize}
+    \item Introduce project
+    \item Introduce aims 
+    \item Introduce concepts 
+\end{itemize}
+
+\chapter{Other Work}
+
+\section{Eye Tracking For Everyone}
+
+\begin{itemize}
+    \item iTracker Model 
+    \item GazeCapture Dataset 
+    \item Results 
+\end{itemize}
+
+\section{Appearance-based Gaze Estimation With Deep Learning: A Review and Benchmark}
+
+\begin{itemize}
+    \item Survey of multiple approaches to gaze estimation \& eye tracking 
+\end{itemize}
+
+
+
+\section{Few-Shot Adaptive Gaze Estimation}
+
+\begin{itemize}
+    \item Discuss the need for personal calibration 
+    \item How calibration can be performed 
+\end{itemize}
+
+\section{Eye tracking systems developed by Tobii}
+
+\begin{itemize}
+    \item Commercially available eye tracking solutions
+\end{itemize}
+
+\chapter{Methods}
+\begin{itemize}
+    \item How the model was trained 
+    \item How the browser extension works 
+    \item How the extension communicates with the model 
+    \item How the model works 
+    \item Datasets
+\end{itemize}
+
+\chapter{Results and Evaluation}
+
+\begin{itemize}
+    \item Comparing my models performance against other eye-tracking models 
+\end{itemize}
+
+\chapter{Discussion}
+
+\begin{itemize}
+    \item Would've been interesting to develop my own model 
+    \item 
+\end{itemize}
+
+\chapter{Conclusion}
+
+\printbibliography
 
 \end{document}

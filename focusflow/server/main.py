@@ -16,8 +16,9 @@ async def sanity_check():
 
 @app.post('/predict-gaze-location')
 async def predict_gaze_location(file: UploadFile, mode: Literal["desktop", "mobile"] = "desktop"):
+    inspect(itracker_desktop)
+    inspect(itracker_mobile)
     contents = await file.read()
-    print(contents)
     image = Image.open(io.BytesIO(contents))
     image = np.array(image)
     frame = process_frame(image)
@@ -27,3 +28,5 @@ async def predict_gaze_location(file: UploadFile, mode: Literal["desktop", "mobi
             return {'location': itracker_desktop(frame)}
         case "mobile":
             return {'location': itracker_mobile(frame)}
+
+    

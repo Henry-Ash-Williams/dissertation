@@ -3,6 +3,7 @@ import torchvision.models as models
 import torch.nn as nn
 import torch.nn.functional as F
 import math
+from rich import inspect
 
 class ItrackerImageModel(nn.Module):
     # Used for both eyes (with shared weights) and the face (with unqiue weights)
@@ -103,8 +104,11 @@ class ITrackerModel(nn.Module):
 
 ITRACKER_DESKTOP_MODEL_PATH = "Iter_1_Itracker_mpii.pt"
 ITRACKER_MOBILE_MODEL_PATH = "Iter_20_Itracker_gazecapture.pt"
-
 itracker_desktop = ITrackerModel()
-itracker_desktop = itracker_desktop.load_state_dict(torch.load(ITRACKER_DESKTOP_MODEL_PATH))
+inspect([module for module in itracker_desktop.modules()])
+itracker_desktop = itracker_desktop.load_state_dict(torch.load(ITRACKER_DESKTOP_MODEL_PATH), strict=False)
+inspect(itracker_desktop)
 itracker_mobile = ITrackerModel()
-itracker_mobile = itracker_mobile.load_state_dict(torch.load(ITRACKER_MOBILE_MODEL_PATH))
+inspect(itracker_mobile)
+itracker_mobile = itracker_mobile.load_state_dict(torch.load(ITRACKER_MOBILE_MODEL_PATH), strict=False)
+inspect(itracker_mobile)
