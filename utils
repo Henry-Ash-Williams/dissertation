@@ -1,3 +1,5 @@
 #!/bin/bash 
 
-append-to-references() { cat $1 >> $dissertation/tex/references.bib }
+append-to-references() { cat "$1" >> $dissertation/tex/references.bib; }
+
+count-references() { cat "$dissertation/tex/references.bib" | grep "^@" -c ; }

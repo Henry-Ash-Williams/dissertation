@@ -1,0 +1,3 @@
+[submodule "Itracker"]
+  path = "other-work/iTracker"
+  url = "git://github.com/yihuacheng/Itracker"

@@ -67,3 +67,10 @@ __pycache__/*
 focusflow/model-hosting/dlib/
 
 focusflow/server/.server-venv/
+
+notebooks/.notebooks/
+
+other-work/iTracker/.itracker-venv/ 
+
+*.tar.gz
+*.zip 

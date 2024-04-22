@@ -2,7 +2,7 @@ import torch
 import torchvision.models as models
 import torch.nn as nn
 import torch.nn.functional as F
-import math
+# import math
 from rich import inspect
 
 class ItrackerImageModel(nn.Module):
@@ -102,13 +102,13 @@ class ITrackerModel(nn.Module):
         
         return x
 
-ITRACKER_DESKTOP_MODEL_PATH = "Iter_1_Itracker_mpii.pt"
+ITRACKER_DESKTOP_MODEL_PATH = "Iter_25_Itracker_mpii.pt"
 ITRACKER_MOBILE_MODEL_PATH = "Iter_20_Itracker_gazecapture.pt"
+
 itracker_desktop = ITrackerModel()
-inspect([module for module in itracker_desktop.modules()])
-itracker_desktop = itracker_desktop.load_state_dict(torch.load(ITRACKER_DESKTOP_MODEL_PATH), strict=False)
-inspect(itracker_desktop)
+itracker_desktop.load_state_dict(torch.load(ITRACKER_DESKTOP_MODEL_PATH))
+itracker_desktop.eval()
+
 itracker_mobile = ITrackerModel()
-inspect(itracker_mobile)
-itracker_mobile = itracker_mobile.load_state_dict(torch.load(ITRACKER_MOBILE_MODEL_PATH), strict=False)
-inspect(itracker_mobile)
+itracker_mobile.load_state_dict(torch.load(ITRACKER_MOBILE_MODEL_PATH))
+itracker_mobile.eval()

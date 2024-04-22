@@ -5,28 +5,27 @@ from subprocess import CalledProcessError
 
 def help():
     print("""compile.py: A simple python tool to make compiling LaTeX projects easier
-USAGE: ./compile.py [options] [filename] 
+USAGE: ./compile.py [options] [filename]
 
-OPTIONS: 
-    compile [filename]      Compile the LaTeX document 
-    clean                   Remove all compilation artifacts from the current working directory 
+OPTIONS:
+    compile [filename]      Compile the LaTeX document
+    clean                   Remove all compilation artifacts from the current working directory
     help | --help | -h      Show this message
 
-NOTE: 
-    This program expects filenames to be provided WITHOUT an extension. 
-    
-EXAMPLES: 
+NOTE:
+    This program expects filenames to be provided WITHOUT an extension.
+
+EXAMPLES:
     Compile the document named 'main.tex'
     $ ./compile.py compile main
 
-    Clean the current working directory, removes all compiler artefacts 
+    Clean the current working directory, removes all compiler artefacts
     $ ./compile.py clean
 
     Show this message
     $ ./compile.py help
     $ ./compile.py --help
-    $ ./compile.py -h
-""")
+    $ ./compile.py -h""")
 
 def compile(filename):
     commands = [
@@ -39,9 +38,9 @@ def compile(filename):
         completed_process = subprocess.run(cmd)
         try:
             completed_process.check_returncode()
-        except CalledProcessError: 
+        except CalledProcessError:
             print(f"ERROR: Command {cmd} failed")
-            
+
 
     clean()
 
@@ -72,14 +71,19 @@ def clean():
         ".fdb_latexmk",
         ".snm",
         ".nav",
+        ".gz",
     ]
     to_remove = [file for file in os.listdir(os.curdir) for ext in cleanFiles if file.endswith(ext)]
     for file in to_remove:
         os.remove(file)
-        
+
 
 if __name__ == "__main__":
-    try: 
+    if int(sys.version[1]) < 10:
+        print("ERROR: This program requires Python version 3.10 and above")
+        exit()
+
+    try:
         operation = sys.argv[1]
     except IndexError:
         help()
@@ -102,4 +106,6 @@ if __name__ == "__main__":
         case "clean":
             clean()
         case "--help" | "-h" | "help":
+            help()
+        case _:
             help()

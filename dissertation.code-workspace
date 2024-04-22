@@ -8,6 +8,12 @@
 		"editor.fontSize": 15,
 		"editor.rulers": [],
 		"editor.renderLineHighlight": "line",
-		"workbench.colorCustomizations": {}
+		"workbench.colorCustomizations": {},
+		"spellchecker.ignoreWordsList": [
+			"crowdsourced",
+			"Gazecapture",
+			"everyone'"
+		],
+		"git.ignoreLimitWarning": true
 	}
 }

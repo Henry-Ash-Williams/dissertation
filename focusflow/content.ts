@@ -25,44 +25,68 @@ navigator.mediaDevices.getUserMedia({video: true})
         console.error(`Error accessing webcam: ${err}`);
     });
 
-function captureFrame() {
+fetch('http://localhost:8000/sanity-check', { 'method': 'get' })
+.then(res => res.json())
+.catch(err => {
+    if (err.status === 404) {
+        console.log('ERROR: Could not communicate with server, is it running?')
+    }
+})
+
+function captureFrame(callback) {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    return ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvas.toBlob(callback);
 }
 
 function getVisibilityState() {
     return document.visibilityState; 
 }
+
+function isDesktop() {
+    return window.innerWidth >= 1024; // Adjust the width threshold as needed
+}
+  
 // Function to handle visibility change
 function handleVisibilityChange() {
-    // file deepcode ignore FunctionDeclarationInBlock: <please specify a reason of ignoring this>
     const visibilityState = getVisibilityState();
 
     if (visibilityState === "hidden") {
-        const frame = captureFrame();
-        console.log(frame);
-        fetch('localhost:8000/get-gaze-location', {
-            method: "post",
+        captureFrame(frame => {
+            const requestData = new FormData(); 
+            requestData.append('method', isDesktop() ? 'desktop' : 'mobile');
+            requestData.append('file', frame);
 
-        }).then(res => {
-            let gazeLocation = res['location'];
-            let paragraphs = document.querySelectorAll('p'); 
-
-            updateVisibleElements(paragraphs, paragraph => {
-                const bbox = paragraph.getBoundingClientRect(); 
-
-                if (
-                    gazeLocation.x >= bbox.left && 
-                    gazeLocation.x <= bbox.right && 
-                    gazeLocation.y >= bbox.top && 
-                    gazeLocation.y <= bbox.bottom 
-                ) {
-                    paragraph.style.border = '2px solid red';
+            fetch(
+                'http://127.0.0.1:8000/predict-gaze-location', 
+                {
+                    method: "post", 
+                    body: requestData,
                 }
-            })}
-        );
+            )
+            .then(res => res.json())
+            .then(res => {
+                let gazeLocation = res['location'];
+                let paragraphs = document.querySelectorAll('p, div'); 
 
+                console.group()
+                console.log(`Gaze Location Predicted at ${gazeLocation.x}, ${gazeLocation.y}`);
+                updateVisibleElements(paragraphs, paragraph => {
+                    const bbox = paragraph.getBoundingClientRect(); 
+                    console.log(bbox);
+                    if (
+                        gazeLocation.x >= bbox.left && 
+                        gazeLocation.x <= bbox.right && 
+                        gazeLocation.y >= bbox.top && 
+                        gazeLocation.y <= bbox.bottom 
+                    ) {
+                        console.log(`Gaze location found in webpage, element: ${paragraph}`);
+                        paragraph.style.border = '2px solid red';
+                    }
+                });
+                console.groupEnd();
+            });
+        });
     } else if (visibilityState === "visible") {
         
     }
