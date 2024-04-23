@@ -1,6 +1,7 @@
 %!LW recipe=pdflatex ➞ bibtex ➞ pdflatex`×2
 
 \documentclass[twocolumn]{report}
+% \documentclass{report}
 
 \newcommand{\mytitle}{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
 \newcommand{\myauthor}{Henry Ash Williams}
@@ -75,7 +76,7 @@ The target user for this project is an individual who frequently reads on their 
 There are two specific tasks I want to accomplish as part of this project.
 
 \begin{itemize}
-    \item The development and evaluation of a machine learning model that predicts the location of a user's gaze on a screen using images taken from their front-facing camera. The machine learning model should be able to make predictions within an approximate $2.5\text{cm}$ radius of the true gaze location, to accurately distinguish between paragraphs on the screen.
+    \item The development and evaluation of a machine learning model that predicts the location of a user's gaze on a screen using images taken from their front-facing camera. The machine learning model should be able to make predictions within an approximate \(2.5\text{cm}\)radius of the true gaze location, to accurately distinguish between paragraphs on the screen.
     \item This project is the development and validation of software that takes pictures from the user's webcam whenever the current browser tab is taken out of focus, securely transmits the image to another application hosting the aforementioned machine learning model and uses the model prediction to highlight the paragraph the user was reading last.
 \end{itemize}
 
@@ -89,6 +90,44 @@ Stretch objectives are tasks that I consider to be optional. If I have achieved 
     \item As it currently stands, the locations of the paragraphs will be detected using the information provided by the document object model (DOM) of the webpage. However, I want this extension to work on documents that aren't written in HTML, such as PDFs. This would require a computer vision system to detect where paragraphs are in an image.
 \end{itemize}
 
+\chapter{Professional and Ethical Considerations}
+
+\noindent
+The BCS code of conduct \cite{bcs2022coc} outlines a set of guidelines which IT professionals are expected to follow. These guidelines seek to improve the public image of ethical practices within the computing field. They include considerations relating to the interest of the public, professional competence and integrity, duty to the relevant authorities and the profession. This section will explore how I will ensure my project adheres to these guidelines. 
+
+\section{Public Interest}   
+
+In order to adhere to the requirements set out by BCS, my project must ensure that the health, privacy, security and well-being of its users are respected. 
+
+To ensure the privacy of users is respected, the software will not share any information with third parties and will be fully encrypted while in transit between the web browser and the machine learning model. 
+
+Furthermore, the images captured to facilitate gaze mapping will not be stored, and instead will immediately be discarded once they have been used by the machine learning model to predict their gaze location.
+
+Users will be in complete control of the capture of these images and will be informed as to how the images will be used. However, if the user does not grant the application permission to use their device's camera, the extension will not function. 
+
+To ensure the machine learning model behaves as expected for all users, the model will be trained on a diverse set of participants. The datasets I plan on using however include over 1500 unique participants, made up of people with diverse backgrounds. This should ensure the model learns how to function correctly for all users. 
+
+The software will be freely available for all of the most commonly used browsers. This includes Google Chrome, Firefox, Microsoft Edge, and Opera. 
+
+\section{Professional Competence \& Integrity}   
+
+Section two of the BCS code of conduct outlines requirements relating to the professional competence and integrity of the person developing the software. The first three points within this section state that the project should be within your level of expertise, that you should not claim any level of competence that you do not possess, and that you should develop your skills and competence as part of the project. I have discussed my project with my supervisor, and we believe that this project is within my professional competence.
+
+I have also researched the relevant legislation regarding user data and machine learning models, and will not violate any such legislation as part of this project. 
+
+The code of conduct also states that alternative viewpoints and honest criticism of work are respected and valued. I plan on regularly meeting with my supervisor to gain insight into my project and gather feedback as to how it could be better. 
+
+I also understand that I must avoid injuring others, their property, reputation or employment by malicious or negligent action or inaction. This includes respecting the rights of the authors of the datasets which I plan on using, and their participants. Every action I can possibly make to ensure their rights are respected will be taken. 
+
+Finally, I will not take or make bribes behave in unethical practices, and discourage other professionals from similar actions.  
+
+\section{Duty to Relevant Authority}   
+
+The project will be developed with the utmost care and respect for the academic policies of the University of Sussex. This includes avoiding potential conflicts of interest and accepting responsibility for any that may arise during development. No confidential information will be disclosed without explicit permission of the University. Furthermore, no information will be misrepresented or withheld. 
+
+\section{Duty to the Profession}   
+
+As part of my duty to the profession, I commit to upholding the reputation of the profession by accepting personal responsibility and will ensure that no actions will harm its standing. This project will be dedicated to taking positive steps to enhance the professional standards of the profession and actively contributing to upholding the reputation of BCS. I will conduct myself with integrity and respect in all professional relationships with BCS members and others. Furthermore, I will be committed to fostering a supportive environment by encouraging and assisting others to uphold the same goals. 
 
 \chapter{Background and Related Works}
 \noindent
@@ -102,9 +141,9 @@ These two methods of predicting gaze have each been researched heavily, and seve
 
 However, it is worth noting that despite these approaches being the most prominent in the literature, other approaches have been proposed. For example, by attaching electrodes to the face of a user, it is possible to observe the movements of the eye indirectly~\cite{young1975survey} and then use this information to estimate both the location of the gaze target and the direction of gaze within a physical space. This approach has seen little development as it requires the use of invasive electrodes mounted to the user's face. 
 
-My research considers an appearance-based 2D point of gaze prediction, as it provides my software with the necessary information to determine what the user is currently reading. 3D gaze direction-based models would be insufficient for the task at hand as they require additional information to convert the vector to a gaze target~\cite{cheng2021survey} such as the screen pose \(\{\pmb R_s, \pmb T_s\}\), and the origin \(o\). To determine the values for each of these parameters, an extra step is required before gaze location prediction can occur, which could introduce inaccuracy into the system, thereby introducing more error into the overall system and decreasing its overall effectiveness and computational complexity.  
+My research considers an appearance-based 2D point of gaze prediction, as it provides my software with the necessary information to determine what the user is currently reading. 3D gaze direction-based models would be insufficient for the task at hand as they require additional information to convert the vector to a gaze target~\cite{cheng2021survey} such as the screen pose \(\{\pmb R_s, \pmb T_s\}\), and the origin \(o\). The screen pose captures the rotation matrix of the screen, \(\pmb R_s\), and the translation matrix, \(\pmb T_s\). To determine the values for each of these parameters, an extra step is required before gaze location prediction can occur, which could introduce inaccuracy into the system, thereby introducing more error into the overall system and decreasing its overall effectiveness and computational complexity. 
 
-The input to my model is an image from the user's web-cam, which provides a simple RGB image of the user's face. This means that my model takes an appearance-based approach. This has several benefits when compared to other approaches such as 2D feature regression and 3D eye model recovery methods, as they require a specialist infra-red camera to accurately map gaze location, and often aren't robust to changes in head pose~\cite{zhu2006nonlinear}. Appearance-based models learn a simple RGB image with is far easier to capture, and does not require additional hardware as many personal computing devices include built-in front-facing cameras which we can make use of. 
+The input to my model is an image from the user's webcam, which provides a simple RGB image of the user's face. This means that my model takes an appearance-based approach. This has several benefits when compared to other approaches such as 2D feature regression and 3D eye model recovery methods, as they require a specialist infra-red camera to accurately map gaze location, and often aren't robust to changes in head pose~\cite{zhu2006nonlinear}. Appearance-based models learn a simple RGB image with is far easier to capture, and does not require additional hardware as many personal computing devices include built-in front-facing cameras which we can make use of. 
 
 
 % The first source I explored as part of my research was a survey on appearance-based gaze estimation with deep learning~\cite{cheng2021survey}. This collated several gaze estimation methods, evaluated their performance, and provided an overview of how they function. This paper considers appearance-based gaze estimation methods, and how deep learning can further assist with improving accuracy. It discusses the accuracy of a variety of models, trained on both 3d gaze estimation and 2d point of gaze prediction, and datasets available for training these models. It provided me with a significant number of sources to explore as part of my research and is largely the basis for everything else I did as part of this project.
@@ -141,6 +180,7 @@ In every browser extension, there is a file known as the manifest. This file con
 
 
 \chapter{Methods}
+\label{chap:methods}
 
 % How the model was trained
 % How the browser extension works
@@ -156,13 +196,23 @@ As part of my research, I discovered the Plasmo framework~\cite{plasmo}. This en
 
 The browser extension is activated on page load. Once the extension is loaded into the context of the webpage, it requests access to the user's webcam using the Media Capture and Streams API, which is a part of all major browsers and allows for the manipulation of audio and video streams. If the user does not allow access to the webcam, the extension will display a small notice on the page informing them that the extension will not function without these permissions. It then gets a list of all elements within the current viewport. The viewport is a concept which represents the visible area of a page. This list is then filtered based on the tag name, elements that contain text are kept, and others such as \texttt{<div>}, \texttt{<header>}, and \texttt{<section>} are discarded. This is necessary as a lot of HTML elements contain no text, 
 
-The browser then waits until the page it's running on goes out of focus, meaning the user has switched browser tabs, and takes an image capture from the webcam. It passes that image, and some information about what kind of device the browser extension is running on, i.e.\ desktop or mobile device, to a local python server. The python server then performs inference on that image and passes the gaze location back to the browser extension, which then determines which element the gaze location intersects with, and highlights it.
+The browser then waits until the page it's running on goes out of focus, meaning the user has switched browser tabs, and takes an image capture from the webcam. It passes that image, and some information about what kind of device the browser extension is running on, i.e.\ desktop or mobile device, to a local python server. The python server then performs inference on that image and passes the gaze location back to the browser extension, which then determines which element the gaze location intersects with, and highlights it. See Fig~\ref{fig:flowchart} for a graphical guide as to how the extension functions. 
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[scale=0.25]{../assets/flowchart.png}
+    \end{center}
+    \caption{The flowchart outlining the functionality of the browser extension}
+    \label{fig:flowchart}
+\end{figure}
 
 \section{Python Server}
 
-I developed the Python server using FastAPI, a library built on top of Flask which allows rapid development of REST APIs. I chose to use it due to the ease of use, and excellent performance.
+I developed the Python server using FastAPI, a library built on top of Flask which allows rapid development of REST APIs. I chose to use FastAPI as I am already familiar with the framework due to the ease of use, and excellent performance~\cite{klenov2015benchmark}. Other, more performant frameworks exist for this use case such as BlackSheep~\cite{prevato2018blacksheep}, but I am unfamiliar with them, and they don't have as much community support behind them.  
 
-The API only has two endpoints, one to verify that the server is running, and another to perform inference on an image. The image is encoded in the form data, meaning it is encrypted while in transit. It also takes a parameter telling the API which model to perform the inference on, the model trained on gazecapture for mobile devices, and the model trained on MPII face gaze for desktop devices.
+The API only has two endpoints, one to verify that the server is running, and another to perform inference on an image. The image is encoded in the form data, meaning it is encrypted while in transit. It also takes a parameter telling the API which model to perform the inference on, the model trained on gazecapture for mobile devices, and the model trained on MPII face gaze for desktop devices. 
+
+As the API runs locally on the user's device, there is no need for the content of the request to be encrypted. However, in a real-world deployment of this project, an SSL certificate should be obtained for the API to ensure malicious actors cannot intercept the images taken from the browser extension. 
 
 
 \section{Model Selection}
@@ -230,11 +280,11 @@ When training with MPIIFaceGaze, it took approximately 30 hours to perform 25 ep
 
 \subsection{Transfer Learning}
 
-The two datasets I chose to use varied massively in terms of available data. MPIIFaceGaze has a total of 15 participants for a total 45000 images, whereas Gazecapture has a total of 1474 participants with a total of 1490959 images. This made the training times for the two models drastically different, as discussed in Section \ref{sec:training}, it took nearly 30 hours to perform 25 epochs of training on MPII Face Gaze. Using the same hardware, it would've taken nearly a month to perform a similar training run. 
+The two datasets I chose to use varied massively in terms of available data. MPIIFaceGaze has a total of 15 participants for a total of 45000 images, whereas Gazecapture has a total of 1474 participants with a total of 1490959 images. This made the training times for the two models drastically different, as discussed in Section~\ref{sec:training}, it took nearly 30 hours to perform 25 epochs of training on MPII Face Gaze. Using the same hardware, it would've taken nearly a month to perform a similar training run. 
 
 For this reason, I chose to perform transfer learning on the model trained on MPII Face Gaze with a subset of the Gazecapture dataset. I chose to only modify the weights of the fully connected layer, and freeze all of the weights in the convolution layers. 
 
-The use of transfer learning allows deep learning models to be adapt to a new domain, using a smaller dataset~\cite{koehrsen2018transfer}. 
+The use of transfer learning allows deep learning models to be adapted to a new domain, using a smaller dataset~\cite{koehrsen2018transfer}. 
 
 \begin{itemize}
     \item MPII trained model avg dist. on MPII test \(0.8803248405456543\)
@@ -259,15 +309,17 @@ I initially planned on using 3 datasets, Gazecapture~\cite{krafka2016eye}, MPII 
 
 I believed merging the three datasets into one larger one would significantly increase the performance of my model as they all captured data in unique environments. Both Gazecapture and MPII Face Gaze were captured ``In-the-wild'', meaning data instances were collected in an uncontrolled environment, such as the participant's bedroom, a library or a coffee shop. This leads to the training data having a variety of lighting conditions but generally having limited variation in head pose~\cite{cheng2021survey}. This is most noticeable in the MPII Face Gaze dataset and is less of an issue in the Gazecapture dataset as subjects of this dataset were instructed to move their phone around as they completed the data collection. ETH-X Gaze however captures subjects in a controlled environment and captures 18 different angles concurrently. The authors also varied the lighting conditions when capturing data.
 
-However, the ETH-X Gaze dataset did not include any annotations for 2D gaze targets. While I could've used the method outlined in~\cite{zhang15cvpr} to convert between a gaze direction vector and a pixel wise gaze target, I was unable to find the time to implement this. Further work could add samples from this dataset into the training data to help the model better learn variations in both head pose and lighting conditions, despite the data being captured in a controlled setting. As the images were captured in a controlled setting, estimating the origin, and screen pose would be easier than converting 3D gaze vectors to gaze targets in an in-the-wild setting, as the origin and screen pose would be different in each instance. 
+However, the ETH-X Gaze dataset did not include any annotations for 2D gaze targets. While I could've used the method outlined in~\cite{zhang15cvpr} to convert between a gaze direction vector and a pixel-wise gaze target, I was unable to find the time to implement this. Further work could add samples from this dataset into the training data to help the model better learn variations in both head pose and lighting conditions, despite the data being captured in a controlled setting. As the images were captured in a controlled setting, estimating the origin, and screen pose would be easier than converting 3D gaze vectors to gaze targets in an in-the-wild setting, as the origin and screen pose would be different in each instance. 
 
-Training the model on this dataset would've also required the developement of a custom data reader, which transforms the raw data into something that the model can understand. This requires the use of another machine learning model, such as the 68 point facial landmark shape predictor~\cite{king2015models} model offered by dlib~\cite{king2009dlib}, to crop certain elements of the face, such as the eyes, and face. 
+Training the model on this dataset would've also required the development of a custom data reader, which transforms the raw data into something that the model can understand. This requires the use of another machine learning model, such as the 68-point facial landmark shape predictor~\cite{king2015models} model offered by dlib~\cite{king2009dlib}, to crop certain elements of the face, such as the eyes, and face. 
 
 \section{Gaze Estimation Model}
 
+As explored in Section~\ref{chap:methods}, I made use of the iTracker model~\cite{krafka2016eye} to handle performing gaze location inference. This was because of its ability to learn gaze inference on images taken from a webcam or front-facing camera with very little pre-processing when compared to other models. However, further work could develop and evaluate the effectiveness of other, custom models based on state-of-the-art architectures found in the literature such as~\cite{seonwook2019fewshot,tafasca2023sharingan}. 
 
+Further work could also research the effect of utilizing a 3D gaze vector model, such as~\cite{zaho2024gazeswin,yu2019deep} on the accuracy of the final product. I was unable to implement this myself as the process of converting between 3D gaze direction vectors requires estimating both the head pose of the user and the position of the screen within 3D space~\cite{zhang15cvpr}. However, further research could involve the prediction of these parameters. For example, making use of techniques such as Appearance template methods~\cite{niyogi1996example}, in which a new image of a head is compared to a set of examples labeled with a discrete pose to find the most similar pose, or detector array methods where a series of head detectors are trained on a specific pose and assign a discrete pose to the detector with the greatest support, among numerous other methods which are explored in~\cite{chutorian2009head}. Screen pose can be determined easily on mobile devices by making use of the gyroscopes that are present in nearly all modern smartphones. Desktop devices are less likely to have these sensors, as they are typically static while in use, which makes it far easier to estimate their pose in 3D space.
 
-
+Another aspect of this project that should be explored is how well a pre-trained model performs. A variety of 
 
 
 \begin{itemize}
@@ -278,6 +330,5 @@ Training the model on this dataset would've also required the developement of a 
 \chapter{Conclusion}
 
 \printbibliography
-
 
 \end{document}
