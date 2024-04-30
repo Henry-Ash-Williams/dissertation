@@ -1,9 +1,57 @@
+@article{akinyelu2020convolutional,
+  author   = {Akinyelu, Andronicus A. and Blignaut, Pieter},
+  journal  = {IEEE Access},
+  title    = {Convolutional Neural Network-Based Methods for Eye Gaze Estimation: A Survey},
+  year     = {2020},
+  volume   = {8},
+  number   = {},
+  pages    = {142581-142605},
+  keywords = {Estimation;Solid modeling;Visualization;Machine learning;Computational modeling;Feature extraction;Gaze tracking;Convolutional neural network;deep learning;eye tracking;eye movements;gaze estimation;computer vision;region of interest},
+  doi      = {10.1109/ACCESS.2020.3013540}
+}
+
+@misc{ali2020benchmark,
+  author       = {Rousan Ali},
+  title        = {Benchmarking Rust Web Frameworks: hyper vs gotham vs actix-web vs warp vs rocket},
+  howpublished = {Github Repository},
+  year         = {2020},
+  url          = {https://github.com/rousan/rust-web-frameworks-benchmark},
+  note         = {Accessed 2024-04-30}
+}
+
+@misc{balim2023efe,
+  title         = {EFE: End-to-end Frame-to-Gaze Estimation},
+  author        = {Haldun Balim and Seonwook Park and Xi Wang and Xucong Zhang and Otmar Hilliges},
+  year          = {2023},
+  eprint        = {2305.05526},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.CV}
+}
+
+@article{bao2021adaptive,
+  author     = {Yiwei Bao and
+                Yihua Cheng and
+                Yunfei Liu and
+                Feng Lu},
+  title      = {Adaptive Feature Fusion Network for Gaze Tracking in Mobile Tablets},
+  journal    = {CoRR},
+  volume     = {abs/2103.11119},
+  year       = {2021},
+  url        = {https://arxiv.org/abs/2103.11119},
+  eprinttype = {arXiv},
+  eprint     = {2103.11119},
+  timestamp  = {Wed, 24 Mar 2021 15:50:40 +0100},
+  biburl     = {https://dblp.org/rec/journals/corr/abs-2103-11119.bib},
+  bibsource  = {dblp computer science bibliography, https://dblp.org}
+}
+
+% Gazecapture
 @online{barnett2021chrome,
-  author = {Daly Barnett},
-  title  = {Chrome Users Beware: Manifest V3 is Deceitful and Threatening},
-  year   = {2021},
-  url    = {https://www.eff.org/deeplinks/2021/12/chrome-users-beware-manifest-v3-deceitful-and-threatening},
-  urldate   = {Accessed 2024-04-17}
+  author  = {Daly Barnett},
+  title   = {Chrome Users Beware: Manifest V3 is Deceitful and Threatening},
+  year    = {2021},
+  url     = {https://www.eff.org/deeplinks/2021/12/chrome-users-beware-manifest-v3-deceitful-and-threatening},
+  urldate = {Accessed 2024-04-17}
 }
 
 @article{barzvi2020eyetrackingdigialreading,
@@ -36,13 +84,13 @@
   url         = {https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json}
 }
 
-% Gazecapture
+% ETH-XGaze
 @article{cheng2021survey,
   title   = {Appearance-based Gaze Estimation With Deep Learning: A Review and Benchmark},
   author  = {Yihua Cheng and Haofei Wang and Yiwei Bao and Feng Lu},
   journal = {arXiv preprint arXiv:2104.12668},
   year    = {2021}
-}
+} 
 
 @article{chutorian2009head,
   author   = {Murphy-Chutorian, Erik and Trivedi, Mohan Manubhai},
@@ -54,6 +102,77 @@
   pages    = {607-626},
   keywords = {Computer vision;Head;Humans;Cameras;Face detection;Focusing;Neck;Eyes;Face recognition;Evolution (biology);Introductory and Survey;Computer vision;Modeling and recovery of physical attributes;Human-centered computing;Vision I/O;Face and gesture recognition;Evaluation/methodology;Introductory and Survey;Computer vision;Modeling and recovery of physical attributes;Human-centered computing;Vision I/O;Face and gesture recognition;Evaluation/methodology},
   doi      = {10.1109/TPAMI.2008.106}
+}
+
+
+@inproceedings{deng2009imagenet,
+  author    = {Deng, Jia and Dong, Wei and Socher, Richard and Li, Li-Jia and Kai Li and Li Fei-Fei},
+  booktitle = {2009 IEEE Conference on Computer Vision and Pattern Recognition},
+  title     = {ImageNet: A large-scale hierarchical image database},
+  year      = {2009},
+  volume    = {},
+  number    = {},
+  pages     = {248-255},
+  keywords  = {Large-scale systems;Image databases;Explosions;Internet;Robustness;Information retrieval;Image retrieval;Multimedia databases;Ontologies;Spine},
+  doi       = {10.1109/CVPR.2009.5206848}
+}
+
+@phdthesis{fielding2000phd,
+  abstract  = {The World Wide Web has succeeded in large part because its software
+               architecture has been designed to meet the needs of an Internet-scale
+               distributed hypermedia system. The Web has been iteratively developed
+               over the past ten years through a series of modifications to the
+               standards that define its architecture. In order to identify those
+               aspects of the Web that needed improvement and avoid undesirable
+               modifications, a model for the modern Web architecture was needed
+               to guide its design, definition, and deployment.
+               
+               Software architecture research investigates methods for determining
+               how best to partition a system, how components identify and communicate
+               with each other, how information is communicated, how elements of
+               a system can evolve independently, and how all of the above can be
+               described using formal and informal notations. My work is motivated
+               by the desire to understand and evaluate the architectural design
+               of network-based application software through principled use of architectural
+               constraints, thereby obtaining the functional, performance, and social
+               properties desired of an architecture. An architectural style is
+               a named, coordinated set of architectural constraints.
+               
+               This dissertation defines a framework for understanding software architecture
+               via architectural styles and demonstrates how styles can be used
+               to guide the architectural design of network-based application software.
+               A survey of architectural styles for network-based applications is
+               used to classify styles according to the architectural properties
+               they induce on an architecture for distributed hypermedia. I then
+               introduce the Representational State Transfer (REST) architectural
+               style and describe how REST has been used to guide the design and
+               development of the architecture for the modern Web.
+               
+               REST emphasizes scalability of component interactions, generality
+               of interfaces, independent deployment of components, and intermediary
+               components to reduce interaction latency, enforce security, and encapsulate
+               legacy systems. I describe the software engineering principles guiding
+               REST and the interaction constraints chosen to retain those principles,
+               contrasting them to the constraints of other architectural styles.
+               Finally, I describe the lessons learned from applying REST to the
+               design of the Hypertext Transfer Protocol and Uniform Resource Identifier
+               standards, and from their subsequent deployment in Web client and
+               server software.},
+  added-at  = {2008-03-05T21:11:28.000+0100},
+  author    = {Fielding, Roy Thomas},
+  biburl    = {https://www.bibsonomy.org/bibtex/217b085721104f50d2f804bd1df197edc/gromgull},
+  file      = {Site:2000/Fielding2000Phd.pdf:PDF},
+  interhash = {092ba78050ae9da156348ac20fccbd12},
+  intrahash = {17b085721104f50d2f804bd1df197edc},
+  keywords  = {architecture rest},
+  owner     = {flint},
+  school    = {University of California, Irvine},
+  timestamp = {2008-03-05T21:11:28.000+0100},
+  title     = {{REST:} Architectural Styles and the Design of Network-based Software
+               Architectures},
+  type      = {Doctoral dissertation},
+  url       = {http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm},
+  year      = 2000
 }
 
 @misc{finlay2015metamask,
@@ -75,7 +194,15 @@
   url       = {http://gen.lib.rus.ec/book/index.php?md5=7E63E6249A822FB3B8B5F6D63706F6E2}
 }
 
-% ETH-XGaze
+@misc{he2015deep,
+  title         = {Deep Residual Learning for Image Recognition},
+  author        = {Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun},
+  year          = {2015},
+  eprint        = {1512.03385},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.CV}
+}
+
 @misc{hill2014ublock,
   author       = {Raymond Hill},
   title        = {uBlock Origin},
@@ -83,7 +210,7 @@
   howpublished = {Github Repository},
   note         = {Accessed 2024-04-16},
   url          = {https://github.com/gorhill/uBlock}
-} 
+}
 
 @misc{huang2016tabletgaze,
   title         = {TabletGaze: Unconstrained Appearance-based Gaze Estimation in Mobile Tablets},
@@ -94,7 +221,17 @@
   primaryclass  = {cs.CV}
 }
 
-
+@inproceedings{junfeng2019on,
+  author    = {He, Junfeng and Pham, Khoi and Valliappan, Nachiappan and Xu, Pingmei and Roberts, Chase and Lagun, Dmitry and Navalpakkam, Vidhya},
+  booktitle = {2019 IEEE/CVF International Conference on Computer Vision Workshop (ICCVW)},
+  title     = {On-Device Few-Shot Personalization for Real-Time Gaze Estimation},
+  year      = {2019},
+  volume    = {},
+  number    = {},
+  pages     = {1149-1158},
+  keywords  = {Estimation;Calibration;Computational modeling;Face;Two dimensional displays;Data models;Cameras;gaze;gaze tracking;few shot learning;on device learning;personalization},
+  doi       = {10.1109/ICCVW.2019.00146}
+}
 @article{kar2017review,
   author  = {Kar, Anuradha and Corcoran, Peter},
   journal = {IEEE Access},
@@ -132,6 +269,7 @@
   pages   = {1755-1758}
 }
 
+
 @misc{king2015models,
   title        = {dlib-models},
   author       = {Davis E King},
@@ -139,6 +277,15 @@
   howpublished = {Github Repository},
   url          = {https://github.com/davisking/dlib-models},
   note         = {Accessed 2024-04-22}
+}
+
+@misc{klenov2015benchmark,
+  title        = {Async Python Web Frameworks Comparison},
+  author       = {Kirill Klenov},
+  year         = {2015},
+  url          = {https://github.com/klen/py-frameworks-bench},
+  note         = {Accessed 2024-04-23},
+  howpublished = {Github Repository}
 }
 
 @misc{koehrsen2018transfer,
@@ -159,6 +306,24 @@
   archiveprefix = {arXiv},
   primaryclass  = {cs.CV}
 }
+@article{krizhevsky2017imagenet,
+  author     = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.},
+  title      = {ImageNet classification with deep convolutional neural networks},
+  year       = {2017},
+  issue_date = {June 2017},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {60},
+  number     = {6},
+  issn       = {0001-0782},
+  url        = {https://doi.org/10.1145/3065386},
+  doi        = {10.1145/3065386},
+  abstract   = {We trained a large, deep convolutional neural network to classify the 1.2 million high-resolution images in the ImageNet LSVRC-2010 contest into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 37.5\% and 17.0\%, respectively, which is considerably better than the previous state-of-the-art. The neural network, which has 60 million parameters and 650,000 neurons, consists of five convolutional layers, some of which are followed by max-pooling layers, and three fully connected layers with a final 1000-way softmax. To make training faster, we used non-saturating neurons and a very efficient GPU implementation of the convolution operation. To reduce overfitting in the fully connected layers we employed a recently developed regularization method called "dropout" that proved to be very effective. We also entered a variant of this model in the ILSVRC-2012 competition and achieved a winning top-5 test error rate of 15.3\%, compared to 26.2\% achieved by the second-best entry.},
+  journal    = {Commun. ACM},
+  month      = {may},
+  pages      = {84–90},
+  numpages   = {7}
+}
 
 @misc{lastpass,
   author       = {LastPass},
@@ -177,6 +342,7 @@
   note        = {Accessed 2020-04-17},
   url         = {https://blog.chromium.org/2020/12/manifest-v3-now-available-on-m88-beta.html}
 }
+
 @article{liu2022in,
   title    = {In the eye of the beholder: A survey of gaze tracking techniques},
   journal  = {Pattern Recognition},
@@ -208,6 +374,29 @@
   urldate = {2023-11-14}
 }
 
+@article{mutalib2022student,
+  title        = {Student Reading Skills Improvement Through Dyslexia Reading Procedures},
+  volume       = {1},
+  url          = {https://publication.seameosen.edu.my/index.php/diebook/article/view/328},
+  abstractnote = {By using a window ruler, this best practice aims to improve dyslexic students' reading skills based on the reading module. Reading is a complex activity that involves both physical and mental activities. Reading activities are also linked to eye movements and visual acuity. Reading methods based on the Dyslexia Reading Procedure can help students improve their reading skills and reduce syllable, word, and sentence reading errors without skipping lines. This practice involves four Sakura dyslexic students from SMK Padang Temu Melaka (Padang Temu Secondary School) in a report and observation format. The use of this best practice implies that teachers can use the Dyslexia Reading Procedure during teaching sessions by using teaching aids. It is hoped that this best practice will help boost the confidence and motivation of special education students, particularly dyslexic students, as well as make the teaching and facilitation process (PdPc) more enjoyable to implement.&amp;lt;/p&amp;gt;},
+  number       = {1},
+  journal      = {Best Practices in Disability-Inclusive Education},
+  author       = {Mazlinah binti Abd Mutalib},
+  year         = {2022},
+  month        = {Dec.}
+}
+
+@inproceedings{niyogi1996example,
+  author    = {Niyogi, S. and Freeman, W.T.},
+  booktitle = {Proceedings of the Second International Conference on Automatic Face and Gesture Recognition},
+  title     = {Example-based head tracking},
+  year      = {1996},
+  volume    = {},
+  number    = {},
+  pages     = {374-378},
+  keywords  = {Head;Monitoring;Humans;Prototypes;Workstations;Road safety;Vector quantization;Neural networks;Computer science;Indexing},
+  doi       = {10.1109/AFGR.1996.557294}
+}
 
 @inproceedings{ohno2002freegaze,
   author    = {Ohno, Takehiko and Mukawa, Naoki and Yoshikawa, Atsushi},
@@ -225,6 +414,21 @@
   keywords  = {gaze interaction, the eyeball model, FreeGaze, Gaze tracing system},
   location  = {New Orleans, Louisiana},
   series    = {ETRA '02}
+}
+
+@misc{onnxruntime,
+  title        = {ONNX Runtime},
+  author       = {ONNX Runtime developers},
+  year         = {2021},
+  howpublished = {\url{https://onnxruntime.ai/}},
+  note         = {Version: 1.17.3}
+}
+@misc{pagevisibility,
+  title  = {Page Visibility API},
+  author = {Mozilla MDN},
+  url    = {https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API},
+  year   = {2024},
+  note   = {Accessed 2024-04-29}
 }
 
 @misc{palmero2018recurrent,
@@ -257,6 +461,15 @@
   url          = {https://www.plasmo.com/},
   urldate      = {2023-11-29},
   year         = {2022}
+}
+
+@misc{prevato2018blacksheep,
+  title        = {BlackSheep},
+  author       = {Roberto Prevato},
+  year         = {2018},
+  url          = {https://github.com/Neoteroi/BlackSheep},
+  howpublished = {Github Repository},
+  note         = {Accessed 2024-04-23}
 }
 @article{rakhmatulin2020deep,
   title    = {Deep Neural Networks for Low-Cost Eye Tracking},
@@ -307,6 +520,54 @@
   eprint        = {2310.00816},
   archiveprefix = {arXiv},
   primaryclass  = {cs.CV}
+}
+
+@misc{tensorflow2015whitepaper,
+  title  = { {TensorFlow}: Large-Scale Machine Learning on Heterogeneous Systems},
+  url    = {https://www.tensorflow.org/},
+  note   = {Software available from tensorflow.org},
+  author = {
+            Mart\'{i}n~Abadi and
+            Ashish~Agarwal and
+            Paul~Barham and
+            Eugene~Brevdo and
+            Zhifeng~Chen and
+            Craig~Citro and
+            Greg~S.~Corrado and
+            Andy~Davis and
+            Jeffrey~Dean and
+            Matthieu~Devin and
+            Sanjay~Ghemawat and
+            Ian~Goodfellow and
+            Andrew~Harp and
+            Geoffrey~Irving and
+            Michael~Isard and
+            Yangqing Jia and
+            Rafal~Jozefowicz and
+            Lukasz~Kaiser and
+            Manjunath~Kudlur and
+            Josh~Levenberg and
+            Dandelion~Man\'{e} and
+            Rajat~Monga and
+            Sherry~Moore and
+            Derek~Murray and
+            Chris~Olah and
+            Mike~Schuster and
+            Jonathon~Shlens and
+            Benoit~Steiner and
+            Ilya~Sutskever and
+            Kunal~Talwar and
+            Paul~Tucker and
+            Vincent~Vanhoucke and
+            Vijay~Vasudevan and
+            Fernanda~Vi\'{e}gas and
+            Oriol~Vinyals and
+            Pete~Warden and
+            Martin~Wattenberg and
+            Martin~Wicke and
+            Yuan~Yu and
+            Xiaoqiang~Zheng},
+  year   = {2015}
 }
 
 @misc{tobiiprofusion,
@@ -391,6 +652,7 @@
   doi      = {10.3758/BF03201553},
   url      = {https://doi.org/10.3758/BF03201553}
 }
+
 @inproceedings{yu2019deep,
   author    = {Yu, Yu and Liu, Gang and Odobez, Jean-Marc},
   title     = {Deep Multitask Gaze Estimation with a Constrained Landmark-Gaze Model},
@@ -407,6 +669,24 @@
   location  = {Munich, Germany}
 }
 
+@inproceedings{yun2019moving,
+  author    = {Ma, Yun and Xiang, Dongwei and Zheng, Shuyu and Tian, Deyu and Liu, Xuanzhe},
+  title     = {Moving Deep Learning into Web Browser: How Far Can We Go?},
+  year      = {2019},
+  isbn      = {9781450366748},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3308558.3313639},
+  doi       = {10.1145/3308558.3313639},
+  abstract  = {Recently, several JavaScript-based deep learning frameworks have emerged, making it possible to perform deep learning tasks directly in browsers. However, little is known on what and how well we can do with these frameworks for deep learning in browsers. To bridge the knowledge gap, in this paper, we conduct the first empirical study of deep learning in browsers. We survey 7 most popular JavaScript-based deep learning frameworks, investigating to what extent deep learning tasks have been supported in browsers so far. Then we measure the performance of different frameworks when running different deep learning tasks. Finally, we dig out the performance gap between deep learning in browsers and on native platforms by comparing the performance of TensorFlow.js and TensorFlow in Python. Our findings could help application developers, deep-learning framework vendors and browser vendors to improve the efficiency of deep learning in browsers.},
+  booktitle = {The World Wide Web Conference},
+  pages     = {1234–1244},
+  numpages  = {11},
+  keywords  = {Deep learning, Measurement, Web applications, Web browser},
+  location  = {San Francisco, CA, USA},
+  series    = {WWW '19}
+}
+
 @article{zaho2024gazeswin,
   author         = {Zhao, Ruijie and Wang, Yuhuan and Luo, Sihui and Shou, Suyao and Tang, Pinyan},
   title          = {Gaze-Swin: Enhancing Gaze Estimation with a Hybrid CNN-Transformer Network and Dropkey Mechanism},
@@ -420,7 +700,6 @@
   abstract       = {Gaze estimation, which seeks to reveal where a person is looking, provides a crucial clue for understanding human intentions and behaviors. Recently, Visual Transformer has achieved promising results in gaze estimation. However, dividing facial images into patches compromises the integrity of the image structure, which limits the inference performance. To tackle this challenge, we present Gaze-Swin, an end-to-end gaze estimation model formed with a dual-branch CNN-Transformer architecture. In Gaze-Swin, we adopt the Swin Transformer as the backbone network due to its effectiveness in handling long-range dependencies and extracting global features. Additionally, we incorporate a convolutional neural network as an auxiliary branch to capture local facial features and intricate texture details. To further enhance robustness and address overfitting issues in gaze estimation, we replace the original self-attention in the Transformer branch with Dropkey Assisted Attention (DA-Attention). In particular, this DA-Attention treats keys in the Transformer block as Dropout units and employs a decay Dropout rate schedule to preserve crucial gaze representations in deeper layers. Comprehensive experiments on three benchmark datasets demonstrate the superior performance of our method in comparison to the state of the art.},
   doi            = {10.3390/electronics13020328}
 }
-
 @inproceedings{zhang15cvpr,
   author    = {Xucong Zhang and Yusuke Sugano and Mario Fritz and Bulling, Andreas},
   title     = {Appearance-based Gaze Estimation in the Wild},
@@ -429,7 +708,6 @@
   month     = {June},
   pages     = {4511-4520}
 }
-
 @article{zhang2019mpii,
   title   = {MPIIGaze: Real-World Dataset and Deep Appearance-Based Gaze Estimation},
   author  = {Zhang, Xucong and Sugano, Yusuke and Fritz, Mario and Bulling, Andreas},
@@ -441,12 +719,14 @@
   number  = {1}
 }
 
+
 @inproceedings{zhang2020ethxgaze,
   author    = {Xucong Zhang and Seonwook Park and Thabo Beeler and Derek Bradley and Siyu Tang and Otmar Hilliges},
   title     = {ETH-XGaze: A Large Scale Dataset for Gaze Estimation under Extreme Head Pose and Gaze Variation},
   year      = {2020},
   booktitle = {European Conference on Computer Vision (ECCV)}
 }
+
 @inproceedings{zhu2006nonlinear,
   title        = {Nonlinear eye gaze mapping function estimation via support vector regression},
   author       = {Zhu, Zhiwei and Ji, Qiang and Bennett, Kristin P},
@@ -455,34 +735,4 @@
   pages        = {1132--1135},
   year         = {2006},
   organization = {IEEE}
-}
-
-@INPROCEEDINGS{niyogi1996example,
-  author={Niyogi, S. and Freeman, W.T.},
-  booktitle={Proceedings of the Second International Conference on Automatic Face and Gesture Recognition}, 
-  title={Example-based head tracking}, 
-  year={1996},
-  volume={},
-  number={},
-  pages={374-378},
-  keywords={Head;Monitoring;Humans;Prototypes;Workstations;Road safety;Vector quantization;Neural networks;Computer science;Indexing},
-  doi={10.1109/AFGR.1996.557294}}
-
-@misc{klenov2015benchmark,
-  title = {Async Python Web Frameworks Comparison},
-  author = {Kirill Klenov}, 
-  year = {2015}, 
-  url = {https://github.com/klen/py-frameworks-bench},
-  note = {Accessed 2024-04-23},
-  howpublished = {Github Repository},
-}
-
-@misc{prevato2018blacksheep,
-title = {BlackSheep},
-author = {Roberto Prevato},
-year = {2018},
-url = {https://github.com/Neoteroi/BlackSheep},
-howpublished = {Github Repository},
-note = {Accessed 2024-04-23},
-
 }

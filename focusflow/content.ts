@@ -67,7 +67,12 @@ function handleVisibilityChange() {
             .then(res => res.json())
             .then(res => {
                 let gazeLocation = res['location'];
-                let paragraphs = document.querySelectorAll('p, div'); 
+                gazeLocation = {
+                    x: gazeLocation.x * window.screen.availWidth,
+                    y: gazeLocation.y * window.screen.availHeight,
+                }
+                console.log(gazeLocation);
+                let paragraphs = document.querySelectorAll('p'); 
 
                 console.group()
                 console.log(`Gaze Location Predicted at ${gazeLocation.x}, ${gazeLocation.y}`);

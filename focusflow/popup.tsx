@@ -6,9 +6,11 @@ function IndexPopup() {
   return (
     <div
       style={{
+        width: '200px',
+        margin: '0 auto', // Center align the component
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        alignItems: "center", // Center align the items inside
         padding: 16,
         fontFamily: "'Montserrat', sans-serif",
         backgroundColor: '#313244',
@@ -27,7 +29,7 @@ function IndexPopup() {
           </defs>
         </svg>
         <h1>FocusFlow</h1>
-        <p>foo bar baz</p>
+        <p>Enabled on this page</p>
       </div>
   )
 }

@@ -8,6 +8,7 @@ import io
 import numpy as np
 from process import process_frame, FaceNotFoundException
 from rich import inspect
+import torch
 
 app = FastAPI() 
 
@@ -33,6 +34,7 @@ async def predict_gaze_location(file: UploadFile, mode: Literal["desktop", "mobi
         frame = process_frame(image)
         model = itracker_desktop if mode == "desktop" else itracker_mobile
         loc = model(frame).tolist()[0]
+        print(loc)
         return {'location': {
             'x': loc[0],
             'y': loc[1] 
