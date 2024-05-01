@@ -74,3 +74,5 @@ other-work/iTracker/.itracker-venv/
 
 *.tar.gz
 *.zip 
+
+**/.ipynb_checkpoints/

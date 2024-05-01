@@ -1,3 +1,5 @@
+# Taken from https://github.com/yihuacheng/Itracker
+
 import torch
 import torchvision.models as models
 import torch.nn as nn
