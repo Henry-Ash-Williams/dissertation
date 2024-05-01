@@ -65,7 +65,7 @@ When using a web browser, users often have to switch back and forth between tabs
 
 To make this technology more accessible, I aim to create a more cost-effective solution. My approach will make use of the existing cameras found in most modern devices, such as the webcam found in laptops, and front-facing cameras found in smartphones. Thus enabling us to extend the benefits of this technology to a broader audience. Several approaches for web-cam-based gaze mapping, otherwise known as appearance-based gaze mapping, have been proposed, but so far, none have been implemented into a browser extension. 
 
-This report will outline the ethical considerations I made throughout development, Section~\ref{chap:ethics}, the background research I looked at which was necessary to develop my solution in Section~\ref{chap:background}, the design of my browser extension,~\autoref{chap:design} including an in-depth analysis of the requirements, the implementation detail of the browser extension, Section~\ref{chap:methods}, an evaluation of how well the browser extension meets the objectives outlined in Sections~\ref{sec:specific-objectives}~, ~\ref{sec:stretch-objectives}~\& which will be covered in Section~\ref{chap:results}, and finally a discussion of further work that could improve my the browser extension. 
+This report will outline the ethical considerations I made throughout development, ~\autoref{chap:ethics}, the background research necessary to develop my solution in~\autoref{chap:background}, the design of my browser extension and model in~\autoref{chap:design}, the implementation detail in \autoref{chap:methods}, an evaluation of its effectiveness in~\autoref{chap:results}, and finally a discussion of future work for further development of the project in~\autoref{chap:discussion}.
 
 
 \section{Motivation}
@@ -272,12 +272,6 @@ As explored in \autoref{ssec:ai-in-the-browser}, it is possible to perform infer
 For these reasons, I opted to remotely host the machine learning model, and communicate with it over a RESTful API~\cite{fielding2000phd}. This allows me to offload the computation of the inference to a dedicated application instead of running it through the browser. Running it natively allows the machine-learning model to make use of various hardware optimizations that the browser cannot access, such as NVidia's CUDA platform and Apple's MPS system. Furthermore, in a real-world deployment, I could host the API on a cloud platform such as AWS, and having the API ready to go would make this process far easier. 
 
 
-
-The browser extension it
-
-
-
-
 \chapter{FocusFlow Browser Extension}
 \label{chap:methods}
 
@@ -289,7 +283,7 @@ The browser extension it
 
 \section{Development of the FocusFlow Browser Extension}
 
-I originally believed that developing an extension for Manifest V3 would significantly increase the complexity of development for my project. However, opting to use Manifest V2 would limit the potential user base of the system to Firefox users, which only make up approximately 3\% global browser traffic~\cite{statcounter2024browser}. I considered which would be the best approach to take, and eventually decided on developing my extension for the manifest V3 API, as it would allow virtually every web browser in the world to run the extension easily. As discussed in~\autoref{sec:browser-extension-background}, the manifest V3 API forbids browser extensions from loading and executing remote code, but still allows it to communicate with an API. This means that my extension is not effected by the new manifest API, and would be valid in both manifest versions 2 and 3. 
+I originally believed that developing an extension for Manifest V3 would significantly increase the complexity of development for my project. However, opting to use Manifest V2 would limit the potential user base of the system to Firefox users, which only make up approximately 3\% global browser traffic~\cite{statcounter2024browser}. I considered which would be the best approach to take, and eventually decided on developing my extension for the manifest V3 API, as it would allow virtually every web browser in the world to run the extension easily. As discussed in~\autoref{sec:browser-extension-background}, the manifest V3 API forbids browser extensions from loading and executing remote code, but still allows it to communicate with an API. This means that my extension is not affected by the new manifest API, and would be valid in both manifest versions 2 and 3. 
 
 As part of my research, I discovered the Plasmo framework~\cite{plasmo}. This enables developers to rapidly develop cross-platform browser extensions. It handles all of the configuration and intricacies of developing browser extensions. I also found that when developing the extension, I was not hindered by any of the restrictions put in place by the Manifest V3 API. I chose to use it for my extension as it made the development process far more simple and provided a jumping-off point for development. It adds several elements such as background service workers, which run in the background of the browser and perform all of the processing necessary to implement my project. It also allows graphical elements of the browser extension such as the pop-up window, and the configuration page to be defined using modern, front-end tooling, such as React, Vue and Svelte using a superset of JavaScript called typescript which provides typing to the language. This makes development far easier, and more maintainable.
 
@@ -340,7 +334,7 @@ After augmentation, some of the true gaze locations ended up lying outside of th
 
 \subsection{Gazecapture}\label{sec:gazecapture}
 
-The Gazecapture dataset was collected through crowdsourcing. This allowed the authors to get a very high number of subjects ($1474$), and therefore a high number of images in the dataset ($2,445,504$). Participants were gathered using Amazon's Mechanical Turk service~\cite{mturk} and asked to download a free app on their device. The Mechanical Turk platform allows researchers and developers access to a large, diverse on-demand workforce. Once opened, the app asked the participants to enable airplane mode to avoid distractions while collecting the data. The app then displays a pulsating red dot on the screen for approximately 2 seconds~\cite{krafka2016eye}, and the camera begins recording 0.5 seconds after the dot is displayed, once the recording is complete, the dot disappears. The app then displays \textit{L} or \textit{R} on the screen for a short window of time, 0.05 seconds. The user must press either the left or right side of the screen depending on what label was displayed to measure their engagement with the application. If they get it wrong, they are warned and required to repeat the previous dot. The app also makes use of the real-time face detector built into iOS to ensure their face is visible in the video captures.
+The Gazecapture dataset was collected through crowdsourcing. This allowed the authors to get a very high number of subjects ($1,474$), and therefore a high number of images in the dataset ($2,445,504$). Participants were gathered using Amazon's Mechanical Turk service~\cite{mturk} and asked to download a free app on their device. The Mechanical Turk platform allows researchers and developers access to a large, diverse on-demand workforce. Once opened, the app asked the participants to enable airplane mode to avoid distractions while collecting the data. The app then displays a pulsating red dot on the screen for approximately 2 seconds~\cite{krafka2016eye}, and the camera begins recording 0.5 seconds after the dot is displayed, once the recording is complete, the dot disappears. The app then displays \textit{L} or \textit{R} on the screen for a short window of time, 0.05 seconds. The user must press either the left or right side of the screen depending on what label was displayed to measure their engagement with the application. If they get it wrong, they are warned and required to repeat the previous dot. The app also makes use of the real-time face detector built into iOS to ensure their face is visible in the video captures.
 
 By making use of crowdsourcing to create datasets, the diversity of participants is significantly greater than researchers would otherwise get. Gazecapture has a wide variety of ethnicities, lighting conditions, head poses, appearances, and backgrounds among the participants.
 
@@ -380,7 +374,7 @@ This chapter will evaluate the effectiveness of the browser extension I develope
 
 This section will evaluate the performance of my deep-learning model which underpins the browser extension. I will discuss its performance in predicting gaze locations and how it relates to the browser extension I developed, how effectively it performs under different conditions, and overall whether the model is suitable for the automatic bookmarking system I designed.
 
-As explored in Section~\ref{sec:training}, the machine learning model achieved a normalised test error of approximately 0.38. This correlates to approximately 10cm horizontal error and 7.5cm vertical error, on the assumption that the device it is running on has a screen that is approximately 30cm by 20cm. This is not ideal however I found that when running my extension in the real world, it could detect the correct paragraph in most cases. It would sometimes detect the incorrect paragraph, by either selecting the paragraph directly above or below the location of true gaze. This indicates that most of the error originates from the vertical component of the gaze location. This could be explained by the fact that when interacting with a web page, users will typically scroll such that the paragraph they are currently reading is at the top of the page. To test this, I tried using the extension and focussing on a paragraph in the middle of a screen. When I did this, I found that the browser extension would opt to highlight paragraphs above or below the location of the paragraph I was focussing on. This indicates that the vertical component of the predicted gaze location is not nearly accurate enough. 
+As explored in Section~\ref{sec:training}, the machine learning model achieved a normalised test error of approximately 0.38. This correlates to approximately 10cm horizontal error and 7.5cm vertical error, on the assumption that the device it is running on has a screen that is approximately 30cm by 20cm. This is not ideal however I found that when running my extension in the real world, it could detect the correct paragraph in most cases. It would sometimes detect the incorrect paragraph, by either selecting the paragraph directly above or below the location of true gaze, this behaviour is exhibited in the video demonstration I made the project~\cite{demonstrationVideo}. This indicates that most of the error originates from the vertical component of the gaze location. This could be explained by the fact that when interacting with a web page, users will typically scroll such that the paragraph they are currently reading is at the top of the page. To test this, I tried using the extension and focussing on a paragraph in the middle of a screen. When I did this, I found that the browser extension would opt to highlight paragraphs above or below the location of the paragraph I was focussing on. This indicates that the vertical component of the predicted gaze location is not nearly accurate enough. 
 
 Furthermore, the horizontal component of gaze is often weighted as less important than the vertical component. This is because, on web pages, paragraphs are typically aligned in a single-column arrangement, meaning each paragraph is directly on top of one another, perhaps with some vertical padding for aesthetic or readability reasons. On a hypothetical two-column website, I presume that the model would have similar problems predicting the paragraph on the left or right side of the screen. However, I was unable to test this as most websites do not opt for a two-column layout, instead opting for a single column with a shorter line length to improve readability. 
 
@@ -388,7 +382,7 @@ I was also unable to train the iTracker model on the gazecapture dataset. This i
 
 To test how the model performs under a variety of lighting conditions, I have designed an experiment that will take a single image from the in-built camera, and perform gamma correction, which effectively darkens an image. This emulates different lighting conditions the browser extension may be used in while keeping the head and screen pose of the user the same. The results for this experiment are demonstrated in \autoref{fig:lighting}. This shows that under different lighting conditions, the model predicts gaze at similar locations. However, when the lighting conditions get sufficiently dark, i.e. a $\gamma$ value of less than 0.4, the face detection model used for pre-processing fails to find the face within the image. This shows that the machine learning model is robust to changes in the lighting conditions of the image. 
 
-I also generated a heatmap that shows where the machine learning model is most likely to predict the location of the gaze of a user to get an idea of how much variation there is in its responses. This process involved capturing a large number of samples, then plotting them on a grid where their colour is the relative frequency of that location. This should indicate if the model has a bias towards a certain location and if any modifications to the model are required. In total, I captured $6924$ samples, and the results are in~\autoref{fig:heatmap}. We see that the model typically predicts gaze around $(0.5, 0.5)$. As the MPIIFaceGaze dataset which this model was trained on randomly selects locations on the screen, we can assume that there is a relatively even split between gaze locations on the top, bottom, left and right of the screen. Thus, predictions typically occurring around the center of the screen are to be expected, and also indicate the model underfitting. This could be remedied using a larger dataset. We also see a strong linear correlation between the $x$ and $y$ coordinates of the screen. This further supports my hypothesis of the model underfitting the training dataset. I believe this is due to the MPIIFaceGaze model not including enough variety of gaze locations in its annotations. See~\autoref{fig:log-mpii} for a plot of locations annotations found within the MPIIFaceGaze dataset.
+I also generated a heatmap that shows where the machine learning model is most likely to predict the location of the gaze of a user to get an idea of how much variation there is in its responses. This process involved capturing a large number of samples, then plotting them on a grid where their colour is the relative frequency of that location. This should indicate if the model has a bias towards a certain location and if any modifications to the model are required. In total, I captured $6924$ samples, and the results are in~\autoref{fig:heatmap}. We see that the model typically predicts gaze around $(0.5, 0.5)$. As the MPIIFaceGaze dataset which this model was trained on randomly selects locations on the screen, we can assume that there is a relatively even split between gaze locations on the top, bottom, left and right of the screen. Thus, predictions typically occurring around the center of the screen are to be expected, and also indicate the model underfitting. This could be remedied using a larger dataset. We also see a strong linear correlation between the $x$ and $y$ coordinates of the screen. This further supports my hypothesis of the model underfitting the training dataset. I believe this is due to the MPIIFaceGaze model not including enough variety of gaze locations in its annotations. See~\autoref{fig:log-mpii} for a plot of location annotations found within the MPIIFaceGaze dataset.
 
 \begin{figure}
     \centering
@@ -416,27 +410,27 @@ I also generated a heatmap that shows where the machine learning model is most l
     \textbf{Requirement} & \textbf{Kind} & \textbf{Achieved} & \textbf{Evidence} & \textbf{Notes} \\ 
     \hline
 
-    The browser extension must run on as many possible browsers as possible, including all of the most popular such as Chrome, Firefox, Edge, and UC browser. & Functional & Yes & \autoref{fig:browser-support} & I was unable to test UC browser as it is not supported on my laptop which runs on Mac OS, however, it is based on the blink browser which means it should be supported as all browsers tested with the exception of firefox are based on.  \\
+    The browser extension must run on as many possible browsers as possible, including all of the most popular such as Chrome, Firefox, Edge, and UC browser. & Functional & Yes & \autoref{fig:browser-support} & I was unable to test UC browser as it is not supported on my laptop which runs on Mac OS, however, it is based on the blink browser which means it should be supported as all browsers tested with the exception of firefox are based on the blink engine.  \\
     \hline
     The browser extension must request permission from the user to access their integrated camera. & Functional & Yes & \autoref{fig:ff-camera} & \\
     \hline
-    The browser extension must highlight the paragraph that they were last reading before the page went out of focus.  & Functional & Partial & v & The accuracy of the machine learning model is relatively poor and it often gets the element wrong, but close to the true paragraph location \\
+    The browser extension must highlight the paragraph that they were last reading before the page went out of focus.  & Functional & Partial & \cite{demonstrationVideo} & The accuracy of the machine learning model is relatively poor and it often gets the element wrong, but close to the true paragraph location \\
     \hline
-    The browser extension must be able to determine the platform it's currently running on, i.e.~mobile, or desktop. & Functional & Yes & v & Assuming all mobile devices have an \texttt{innerWidth} of less than 1024 pixels. \\
+    The browser extension must be able to determine the platform it's currently running on, i.e.~mobile, or desktop. & Functional & Yes & ~ & Assuming all mobile devices have an \texttt{innerWidth} of less than 1024 pixels. I was unable to test this as I could not load the extension on a mobile web browser due to time constraints. \\
     \hline
     The browser extension must securely transmit the images taken from the web page to the API & Functional & No & ~ & Images are not encrypted, but as the API runs locally, malicious agents are limited in their ability to intercept these images. However, in a real-world deployment, the data should be transmitted over HTTPS. \\
     \hline
     The machine learning model must predict the location of the user gaze within approximately \(2.5\text{cm}\) of the user's location gaze  & Functional & No & See notes & Model achieved a training error of approx 40\% which correlates to 10cm x 7.5cm assuming 30cm x 20cm screen size \\
     \hline
-    The machine learning model must work in a variety of lighting conditions. & Functional & Yes & \autoref{fig:lighting} & As demonstrated in~\autoref{fig:lighting}, the model works well under a variety of lighting conditions. To test this, I took an image and performed gamma correction on it with a variety of $\gamma$ values. As seen in the results, the model predicts the gaze location at a similar location for each image, except when $\gamma$ falls below $0.4$, at which point the processing step fails, and is unable to detect a face within the image. \\ 
+    The machine learning model must work in a variety of lighting conditions. & Functional & Yes & \autoref{fig:lighting} & As demonstrated in~\autoref{fig:lighting}, the model works well under a variety of lighting conditions. To test this, I took an image and performed gamma correction on it with a variety of $\gamma$ values. As seen in the results, the model predicts the gaze location at a similar location for each image, except when $\gamma$ falls below $0.4$, at which point the processing step fails and is unable to detect a face within the image. \\ 
     \hline
-    The machine learning model must work with a variety of head poses.  & Functional & Partial & ~ & \\
+    The machine learning model must work with a variety of head poses.  & Functional & Partial & ~ & The dataset includes a variety of head poses, but I was unable to test this myself. \\
     \hline
     The machine learning model must work on devices with a variety of screen sizes  & Functional & Yes & ~ & The model predicts the gaze location in a normalised space, and is converted to reflect their gaze location on their screen  \\ 
     \hline
     The user must be able to configure how the browser extension highlights paragraph elements & Functional & No & ~ & I was unable to implement this due to time constraints \\
     \hline
-    The machine learning model must not be biased, i.e.~it works only for caucasian users. & Non-Functional & ~ & ~ & \\ 
+    The machine learning model must not be biased, i.e.~it works only for caucasian users. & Non-Functional & Partial & ~ & The MPIIFaceGaze was trained on a collection of participants of different races, but the majority were white. \\ 
     \hline
     The web browser should work on both mobile and desktop browsers. & Functional & Partial & ~ & The browser extension loads on a mobile browser, but the backend API does not currently support mobile gaze inference as I was unable to perform transfer learning on the trained desktop model  \\  
     \hline
@@ -545,7 +539,7 @@ I also generated a heatmap that shows where the machine learning model is most l
 \end{figure}
 
 
-\chapter{Discussion: Future Work}
+\chapter{Discussion: Future Work}\label{chap:discussion}
 
 \section{Exploring Alternative Training Datasets}
 
@@ -574,7 +568,7 @@ As explored in the evaluation of the machine learning model,~\autoref{sec:itrack
 
 \subsection{Transfer Learning}
 
-The two datasets I chose to use varied massively in terms of available data. MPIIFaceGaze has a total of 15 participants for a total of 45000 images, whereas Gazecapture has a total of 1474 participants with a total of 1490959 images. This made the training times for the two models drastically different, as discussed in Section~\ref{sec:training}, it took nearly 30 hours to perform 25 epochs of training on MPII Face Gaze. Using the same hardware, it would've taken nearly a month to perform a similar training run. 
+The two datasets I chose to use varied massively in terms of available data. MPIIFaceGaze has a total of 15 participants for a total of 45,000 images, whereas Gazecapture has a total of 1,474 participants with a total of 1,490,959 images. This made the training times for the two models drastically different, as discussed in Section~\ref{sec:training}, it took nearly 30 hours to perform 25 epochs of training on MPII Face Gaze. Using the same hardware, it would've taken nearly a month to perform a similar training run. 
 
 For this reason, I chose to perform transfer learning on the model trained on MPII Face Gaze with a subset of the Gazecapture dataset. I chose to only modify the weights of the fully connected layer, and freeze all of the weights in the convolution layers. 
 
@@ -599,16 +593,15 @@ In the end however, I decided to implement the API in python instead as I was un
 \begin{itemize}
     \item 2023-06-02 Begun preliminary reading 
     \item 2023-08-01 Begun work on web extension 
-    \item 2023-08-02 Looked at other peoples implementations of gaze mapping software \& tried item to detect paragraphs in the viewport on a webpage 
-    \item 2023-08-03 Performance improvements to paragraph detection on webpage 
+    \item 2023-08-02 Looked at other people's implementations of gaze mapping software \& tried item to detect paragraphs in the viewport on a webpage 
+    \item 2023-08-03 Performance improvements to paragraph detection on the webpage 
     \item 2023-08-06 Changed how paragraph detection works 
     \item 2023-08-07 Started work on my own model for gaze mapping 
-    \item 2023-08-20 Migrated browser extensions to Plasmo framework 
-    \item 2023-09-12 Tried to build a dataset loader, encountered difficulties as I haven't been given ethical approval to use datasets yet, so I'm basing it off the description of the dataset
+    \item 2023-08-20 Migrated browser extensions to the Plasmo framework 
+    \item 2023-09-12 Tried to build a dataset loader, and encountered difficulties as I haven't been given ethical approval to use datasets yet, so I'm basing it off the description of the dataset
     \item 2023-09-20 Sent an email to Temitayo, regarding potentially acting as my supervisor
     \item 2023-09-22 Did some more reading \& work on ethics application  
-    \item 2023-09-25 Spoke to Temitayo about project proposal, discussed the need for an
-    \item ethics application, agreed to act as my supervisor 
+    \item 2023-09-25 Spoke to Temitayo about the project proposal, and discussed the need for an ethics application, agreed to act as my supervisor 
     \item 2023-10-02 Meeting with Temitayo about the ethical application, shared feedback on my application 
     \item 2023-10-11 Started on interim report 
     \item 2023-10-20 Tried to get iTracker model to train on my local machine using a small custom dataset 
@@ -619,13 +612,64 @@ In the end however, I decided to implement the API in python instead as I was un
     \item 2024-01-18 Developed a program to crop eyes, face and to produce a binary mask for pre-processing 
     \item 2024-01-25 Begun work on the API hosting the machine learning model, sent out revised ethics application 
     \item 2024-02-01 Training itracker model on mpiifacegaze model, browser extension now highlights an element on the page 
-    \item 2024-02-08 Plan for literature review, tried merging gazecapture and mpiifacegaze datasets, recieved revised ethics application. 
+    \item 2024-02-08 Plan for literature review, tried merging gazecapture and mpiifacegaze datasets, received revised ethics application. 
     \item 2024-02-19 Debugging session with my supervisor to figure out an issue with the length of time required to perform validation, made a plan for testing the final product, review of existing literature 
     \item 2024-02-29 Finished development of the API 
     \item 2024-07-03 Wrote outline for the report
     \item 2024-04-01 Trained iTracker on MPIIFaceGaze for 25 epochs, performed data augmentation on the MPII Face Gaze dataset to normalise the locations of gaze, started work on final report, finalized the codebase 
     \item 2024-05-01 Finished report \& made a demonstration video 
-    
 \end{itemize}
+
+\chapter{Ethics Application}\label{sec:ethics-app}
+
+\section*{Project Description}
+
+The aim of this project is to investigate the use of machine learning and face images captured using in-built laptop/phone cameras to track reading progress within text in a web browser so as to enable bookmark of the last paragraph being read when browser tabs or windows are switched.
+
+This project will involve building and evaluating machine learning models for gaze tracking and analysis based on 3 secondary datasets, GazeCapture, MPIIGaze, and ETHXGaze.The GazeCapture \cite{krafka2016eye} dataset was captured from participants while they focused on marked points on their phone/tablet screen at home. This dataset includes face images, gaze target positions, and metadata, e.g. device screen orientation.It is accessible via a website \url{https://gazecapture.csail.mit.edu}, a registration form, and adherence to a license that stipulates no sharing with any third party and research use only.
+
+MPIIGaze \cite{zhang15cvpr} was also captured in similar settings as GazeCapture. However, the data was captured with the participant's laptop, and the gaze focus tasks for this dataset appeared to the participant at random times during normal use of their laptop. The dataset includes cropped eye images, positions of eye landmarks, gaze target positions, associated head poses and directions, and camera parameters. It will be accessed via the \href{https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/research/gaze-based-human-computer-interaction/appearance-based-gaze-estimation-in-the-wild/}{website}, and it comes with a license that requires non-commercial use only.
+
+The ETHX-Gaze dataset \cite{zhang2020ethxgaze} was captured in lab settings using multiple external cameras. The dataset includes face images, gaze target positions, and lighting conditions. The dataset will be accessed via the website \url{https://ait.ethz.ch/xgaze}, a registration form, and an agreement to a license that requires non-commercial use.
+
+The machine learning model developed from these datasets will be used to build a software deployed on a local computer.The software will take face images via the device camera, triggered by events on the linked web browser (e.g. switching tabs), and send inference of the user's gaze target location on the given web page to the browser for bookmarking.This web browser extension software will only be validated on myself and my supervisor; no tests with primary research participants will be carried out. The validation will involve the subject (me or my supervisor) reading a selection of texts, e.g. on computer science topics, on a laptop (browser). Face images of the subject will be captured and processed using the custom software described above. The images captured will be discarded and not stored after processing is complete. However, face images from me and processed derivatives will be saved for use in presentations and publications (e.g. my dissertation) to facilitate valuable description of the software and its validation.
+
+The datasets are well used in the research community, e.g. in \cite{Valliappan2020accelerating}, \cite{seonwook2019fewshot} . My use aligns with the purpose for which they were originally collected (gaze tracking). The datasets will be stored on an external hard drive, which will be software-encrypted and not shared with any third party, and on the University of Sussex OneDrive. The data will also be stored and processed on my personal laptop, which is password protected and will not be shared with any third party, as well as on University of Sussex computers. Processing will be done using standard statistics and machine learning methods and software development kits.
+
+\section*{Amendment}
+
+The software to be developed within this project will use a publicly available library (dlib - dlib C++ Library) and in particular its pre-trained machine learning model, for face detection and facial landmark estimation \url{http://dlib.net/face_landmark_detection.py.html}. The pre-trained model was trained with an open video dataset (300 Videos in the wild - {https://ibug.doc.ic.ac.uk/resources/300-VW/}). In my use of the software, I will not access the 300 Videos in the wild dataset itself. Instead, the pre-trained model will be applied to face image input to my software as part of preprocessing the images for the gaze estimation model that will be developed within this project (as described in the project description).
+
+
+\chapter{Project Proposal}
+
+\section*{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
+
+\subsection*{Description}
+My project seeks to build a machine learning model that takes an image from a user's camera, such as their front-facing camera on their phone, or the webcam on their laptop and predicts where they are looking on the screen. Using this information, a web browser extension will bookmark the last paragraph the user was looking at before switching tabs, or otherwise causing the piece of text to go out of focus. Once they bring the text back into focus, they should be able to immediately view where they were up to in the text
+
+\vspace{0.5cm}
+
+\noindent
+Supervised by \textbf{Dr Temi Olugbade} 
+
+\vspace{0.5cm}
+
+\subsection*{Aims}
+
+\begin{itemize}
+    \item Build, test and validate a machine learning model that maps images of users to a set of coordinates that represent where on the screen the user is looking 
+    \item Use the information gained by this model to automatically detect which paragraph a user is reading at any given time 
+    \item Develop a browser extension that works on all major browsers and highlights paragraphs on the screen whenever the user switches tabs 
+    \item Develop a secondary application in Rust that hosts the machine learning model and allows for communication with the browser extension 
+\end{itemize}
+
+\subsection*{Relevance}
+
+This project incorporates web development, and machine learning, to hopefully improve the experience of reading on digital devices. It will challenge my skills with AI-related tasks, however, I already have experience working with such projects. 
+
+\chapter{GitHub Repository}
+
+All of the source files for this project are available on my \href{https://github.com/Henry-Ash-Williams}{GitHub}. However, as most of the work occurred in the iTracker submodule, and I have not pushed my changes to the main repository, please see the zip archive on my canvas submission to see all of the code used for this project. 
 
 \end{document}

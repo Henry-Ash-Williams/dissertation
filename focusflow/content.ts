@@ -44,7 +44,7 @@ function getVisibilityState() {
 }
 
 function isDesktop() {
-    return window.innerWidth >= 1024; // Adjust the width threshold as needed
+    return window.innerWidth >= 1024; 
 }
   
 // Function to handle visibility change
