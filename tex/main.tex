@@ -3,7 +3,7 @@
 \documentclass{report}
 
 \newcommand{\mytitle}{Building and Validating A Gaze-Aware AI System for Automatic Paragraph-Level Bookmarking}
-\newcommand{\myauthor}{Henry Ash Williams}
+\newcommand{\myauthor}{Henry Williams}
 \newcommand{\mydate}{\today}
 
 \title{\mytitle}
@@ -37,11 +37,13 @@
 
         {\Large\textbf{\myauthor}
 
+        233561
+
         \vspace*{0.5cm}
 
         \mydate}
 
-        \vspace*{1.5cm}
+        \vspace*{1cm}
 
         \includegraphics[scale=0.075]{../assets/UoS-logo.png}
 
@@ -68,6 +70,30 @@
         }
     \end{center}
 \end{titlepage}
+
+\begin{center}
+    \vspace*{2cm}
+
+    {\Huge Statement Of Originality} 
+
+    \vspace*{1.5cm}
+
+    \begin{minipage}{0.5\textwidth}
+        This report is submitted as part requirement for the degree of Computer Science with Artificial Intelligence at the University of Sussex. It is the product of my own labour except where indicated in the text. The report may be freely copied and distributed provided the source is acknowledged. I hereby give permission for a copy of this report to be loaned out to students in future years
+        
+        \vspace*{0.5cm}
+
+        Signed,
+    \end{minipage}
+
+    \includegraphics[scale=0.3]{../assets/signature.png}
+
+    \begin{minipage}{0.5\textwidth}
+        Henry Williams 
+
+        Candidate Number 233561
+    \end{minipage}
+\end{center}
 
 \tableofcontents
 
@@ -598,8 +624,10 @@ To conclude, this report has outlined my implementation of a cross-platform brow
 
 The browser extension itself is easy to use, requiring very little input from the user, and could easily be built upon thanks to the extensibility of the Plasmo framework. The concepts developed as part of this extension could be used to develop future browser extensions that improve the accessibility of the web, and future work should consider using this framework to aid in the development of such an extension. Future work could also consider cloud hosting the machine learning model to make the extension even easier to use. Currently, the user has to run a Python web server to host the model which the browser extension can communicate with. By offloading this to the cloud, it prevents issues when setting up the application, and makes it far easier for the users. As it stands, the performance of the browser extension is limited by the performance of the model, so future work should consider this first. I also had intended this project to function on both mobile and desktop devices, while it currently is only supported on desktop devices.  
 
+Overall, I feel that I achieved all of the objectives outlined. The browser extension can accurately predict the paragraph the user is reading in most cases in a variety of lighting conditions and screen sizes. 
 
-% \nocite{*}
+
+\nocite{*}
 \printbibliography
 
 \appendix 
@@ -690,7 +718,7 @@ All of the source files for this project are available on my \href{https://githu
 
 \chapter{Acknowledgements}
 
-% This project would not have been possible without the support and guidance provided by my supervisor, Dr Temitayo Olugbade who provided invaluable guidance and feedback. I would also like to thank all of the lecturers I have had the pleasure of studying under at the University of Sussex whose skills and expertise have helped develop my knowledge of the field to make this report possible. 
+This project would not have been possible without the support and guidance provided by my supervisor, Dr Temitayo Olugbade who provided invaluable guidance and feedback. I would also like to thank all of the lecturers I have had the pleasure of studying under at the University of Sussex whose skills and expertise have helped develop my knowledge of the field to make this report possible. 
 
 I would like to express my deepest thanks to my supervisor, Dr Temitayo Olugbade for her invaluable guidance, support and insightful feedback while completing this dissertation. Her expertise, encouragement and mentorship were invaluable and without her, this work would not have been possible. 
 
