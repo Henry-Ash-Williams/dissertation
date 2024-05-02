@@ -24,35 +24,48 @@
 \usepackage{longtable}
 
 \addbibresource{references.bib}
+\newcommand\posscite[1]{\citeauthor{#1}'s (\citeyear{#1}) \cite{#1}}
 
 \begin{document}
 
 \begin{titlepage}
     \begin{center}
-        \vspace*{4cm}
+        \vspace*{2cm}
         {\huge\textbf{\mytitle}}
-
-        \vspace*{1cm}
-
-        {\Large\textbf{\myauthor}
 
         \vspace*{0.75cm}
 
+        {\Large\textbf{\myauthor}
+
+        \vspace*{0.5cm}
+
         \mydate}
 
-        \vspace*{2cm}
+        \vspace*{1.5cm}
 
         \includegraphics[scale=0.075]{../assets/UoS-logo.png}
 
-        \vspace*{2cm}
+        \vspace*{1.5cm}
 
         {\Large BSc Computer Science with AI }
 
-        \vspace*{2cm}
+        \vspace*{1.5cm}
 
         {\large School of Engineering and Informatics
 
         Supervisor: Dr Temi Olugbade}
+
+        \vspace*{1.5cm}
+        
+        {
+            \textbf{Abstract}
+        
+            \vspace*{0.5cm}
+
+            \begin{minipage}{0.5\textwidth}
+                When reading a body of text in a web browser, users often switch their focus between multiple webpages, known as tabs. When switching back to the page they were reading, users often find that they have lost their place within the page. My project seeks to solve this issue by developing a browser extension that detects which paragraph the user was last focussing on before they switched tabs, and highlighting it. I will utilize the built-in front-facing cameras found in most personal computing devices, such as smartphones and laptops to capture images of the user, and use these images to predict the location of their gaze on the screen using a Machine Learning model. 
+            \end{minipage}
+        }
     \end{center}
 \end{titlepage}
 
@@ -165,13 +178,13 @@ One of the most promising, state-of-the-art models I discovered as part of my ba
     \label{fig:itracker-model}
 \end{figure}
 
-The only issue with using iTracker trained on the Gazecapture dataset is that it was designed for gaze prediction on mobile devices. However, the repository~\cite{krafka2016eye,cheng2021survey} made available as part of their publication offered a configuration that allows the model to be trained on the MPII Face Gaze~\cite{zhang2019mpii} dataset, which captures the point of gaze information and images from people's laptops rather than phones as the Gazecapture dataset does.
+The only issue with using iTracker trained on the Gazecapture dataset is that it was designed for gaze prediction on mobile devices. However, the GitHub repository~\cite{krafka2016eye,cheng2021survey} made available as part of their publication offered a configuration that allows the model to be trained on the MPII Face Gaze~\cite{zhang2019mpii} dataset, which captures the point of gaze information and images from people's laptops rather than phones as the Gazecapture dataset does.
 
 In the final release of my software, it will need to work on both mobile and desktop devices. I plan on training two models, one for clients on desktop devices and another for mobile devices.
 
 In the literature, researchers highlight the importance of calibration for increased gaze mapping accuracy. Seonwook Park's (et al\.) paper~\cite{seonwook2019fewshot} explains why this additional step is necessary for high-accuracy gaze mapping models, and introduces their FAZE (Few-shot Adaptive GaZE Estimation) framework which seeks to create a specialized model for a given user with a few shot approach. By training a generalized model on a few calibration points, their approach demonstrates significantly improved accuracy when compared to the generalized model. 
 
-I also looked at several other approaches for gaze estimation using a CNN, and I found that most state-of-the-art approaches, such as AFF-Net~\cite{bao2021adaptive}, SAGE~\cite{junfeng2019on}, and EFE~\cite{balim2023efe} had similar approaches to iTracker, with similar results across domains. For example, AFF-Net made use of the eye and face cropping technique proposed by iTracker. 
+I also looked at several other approaches for gaze estimation using a CNN, and I found that most state-of-the-art approaches, such as AFF-Net~\cite{bao2021adaptive}, SAGE~\cite{junfeng2019on}, and EFE~\cite{balim2023efe} had similar approaches to iTracker, with similar results across domains. For example, AFF-Net made use of the eye and face cropping technique proposed by iTracker and was able to achieve an average distance of $1.62\text{cm}$ when trained on the Gazecapture dataset, whereas the Itracker model achieved $2.04\text{cm}$. 
 
 To decrease training time, I looked into the performance of pre-trained CNNs for this technique, such as AlexNet~\cite{krizhevsky2017imagenet} and RES-Net~\cite{deng2009imagenet}. This is a well-researched approach for image-based deep-learning tasks, where a pre-trained model is fine-tuned on a new task. The benefit of using this approach, known as transfer learning allows researchers to cut down on both time spent training and the size of the dataset used to train the model. However, when compared to the performance of specialized architectures, their performance is worse. For example, when trained on the MPII Gaze dataset, AlexNet achieved a test error of \(4.8\text{cm}\) whereas the architecture proposed by~\textcite{akinyelu2020convolutional} was able to achieve \(4.6\text{cm}\) test error.
 
@@ -240,6 +253,7 @@ Another of my stretch objectives is to develop a computer vision system to autom
     \centering
     \includegraphics[scale=0.1]{../assets/binary-mask.png}
     \caption{An example of how a binary mask might look in a browser extension with a computer vision system to detect paragraphs}
+    \label{fig:binary-mask}
 \end{figure}
 
 \section{User Interface} 
@@ -269,17 +283,11 @@ My project will be comprised of two components: the browser extension which capt
 
 As explored in \autoref{ssec:ai-in-the-browser}, it is possible to perform inferences in the browser. However, there are trade-offs for this, such as having to transmit the trained machine learning model to every user, which can be very large. For example, the iTracker model trained on the MPIIFaceGaze dataset is approximately 25MB in size. For comparison, the median size of a desktop website in 2024 is 2.2MB~\cite{httparchive2024pageweight}. Having to load that large of a file would likely take a very long time for users with a slow internet connection and would negatively affect their experience. Furthermore, performing inference from a deep-learning model is very computationally expensive, and users with weak hardware could find their browser would slow down significantly when they try to perform the inference. 
 
-For these reasons, I opted to remotely host the machine learning model, and communicate with it over a RESTful API~\cite{fielding2000phd}. This allows me to offload the computation of the inference to a dedicated application instead of running it through the browser. Running it natively allows the machine-learning model to make use of various hardware optimizations that the browser cannot access, such as NVidia's CUDA platform and Apple's MPS system. Furthermore, in a real-world deployment, I could host the API on a cloud platform such as AWS, and having the API ready to go would make this process far easier. 
+For these reasons, I opted to remotely host the machine learning model, and communicate with it over a RESTful API~\cite{fielding2000phd}. This allows me to offload the computation of the inference to a dedicated application instead of running it through the browser. Running it natively allows the machine-learning model to make use of various hardware optimizations that the browser cannot access, such as NVidia's CUDA platform and Apple's MPS system. Furthermore, in a real-world deployment, I could host the API on a cloud platform such as AWS, and having the API ready to go would make this process far easier. However, my ethical review states that the model will be locally hosted, and it presents an ethical issue to share a model trained on these datasets with a third party. 
 
 
 \chapter{FocusFlow Browser Extension}
 \label{chap:methods}
-
-% How the model was trained
-% How the browser extension works
-% How the extension communicates with the model
-% How the model works
-% Datasets
 
 \section{Development of the FocusFlow Browser Extension}
 
@@ -303,18 +311,19 @@ The browser then waits until the page it's running on goes out of focus, meaning
 
 I developed the Python server using FastAPI, a library built on top of Flask which allows rapid development of REST APIs. I chose to use FastAPI as I am already familiar with the framework due to the ease of use, and excellent performance~\cite{klenov2015benchmark}. Other, more performant frameworks exist for this use case such as BlackSheep~\cite{prevato2018blacksheep}, but I am unfamiliar with them, and they don't have as much community support behind them.  
 
-The API only has two endpoints, one to verify that the server is running, and another to perform inference on an image. The image is encoded in the form data, meaning it is encrypted while in transit. It also takes a parameter telling the API which model to perform the inference on, the model trained on gazecapture for mobile devices, and the model trained on MPII face gaze for desktop devices. 
+The API only has two endpoints, one to verify that the server is running, and another to perform inference on an image. It also takes a parameter telling the API which model to perform the inference on, the model trained on gazecapture for mobile devices, and the model trained on MPII face gaze for desktop devices. 
 
 As the API runs locally on the user's device, there is no need for the content of the request to be encrypted. However, in a real-world deployment of this project where the API is hosted on a remote server, an SSL certificate should be obtained for the API to ensure malicious actors cannot intercept the images taken from the browser extension while the data is in transit between the browser extension and the API. 
 
 
 \section{Model Selection}
 
-When considering models, I wanted something that does not rely on any other systems, such as head pose detection, as adding additional inference would amplify errors between models and would make the predictions less accurate. For this reason, I opted to use an appearance-based model which predicts a 2D point of gaze. For this reason, I chose to use the iTracker model as outlined in~\cite{krafka2016eye}. This model has shown promising performance in both a desktop and mobile context, \(7.67\text{cm}\) for desktop applications, \(2.81\text{cm}\), \(1.86\text{cm}\) in tablet and phone environments respectively~\cite{cheng2021survey}.
+When considering models, I wanted something that does not rely on any other systems, such as head pose detection, as adding additional inference would amplify errors and make the predictions less accurate. For this reason, I opted to use an appearance-based model which predicts a 2D point of gaze. This lead me to the iTracker model as outlined in~\cite{krafka2016eye}. This model has shown promising performance in both a desktop and mobile context, \(7.67\text{cm}\) for desktop applications, \(2.81\text{cm}\), \(1.86\text{cm}\) in tablet and phone environments respectively~\cite{cheng2021survey}. The authors of the paper also made all of the source code used to train and develop the model available on a public \href{https://github.com/yihuacheng/Itracker}{GitHub repository}, which made it far easier to develop the application. 
+
 
 \section{Datasets}
 
-To develop the deep learning model, I used both the Gazecapture and MPIIFaceGaze datasets. 
+To develop the deep learning model, I planned on using both the Gazecapture~\cite{krafka2016eye} and MPIIFaceGaze~\cite{zhang2019mpii} datasets. However, I only ended up using the MPIIFaceGaze dataset.
 
 \subsection{MPIIFaceGaze}\label{ssec:mpii-face-gaze}
 
@@ -346,7 +355,7 @@ During the collection of the data, participants were asked to move their devices
 
 The training was performed on a single Mac Studio with an M1 Ultra Chip, clocked at 3.2GHz, with a 24-core GPU, 16-core ``Neural Engine'' and 64GB of memory. Apple's recent developments into their own, custom CPUs such as the M1 have included cores dedicated to the training and use of neural networks, known as their neural engine. Making use of this specialized hardware enables faster training of machine learning models when compared to using the CPU, similar to Nvidia's CUDA platform. 
 
-When training with MPIIFaceGaze, it took approximately 30 hours to perform 25 epochs, with a learning rate of 0.001. As we see in Fig.~\ref{fig:val}, the validation distance decreased practically every epoch, but not by very much. It used Mean-Squared Error as the loss function, and the validation dataset had two participants within it. The validation error began to plateau around 0.38 after a few epochs of training, as is similar to the training loss (\autoref{fig:loss}). The training loss began around 0.35, and rapidly converged around 0.08. This indicates that improvements from further training would likely be marginal, and to better estimate the location of gaze, a larger dataset, hyperparameter optimisation, or a different architecture entirely may be necessary. I believe that the best option to improve performance would be to use a larger dataset, as the MPIIFaceGaze dataset is very small in comparison to other larger datasets. 
+When training with MPIIFaceGaze, it took approximately 30 hours to perform 25 epochs, with a learning rate of 0.001. These hyperparameters were suggested in \posscite{krafka2016eye} paper, and I wanted to replicate the results found in this research. As we see in Fig.~\ref{fig:val}, the validation distance decreased practically every epoch, but not by very much. It used Mean-Squared Error as the loss function, and the validation dataset had two participants within it. The validation error began to plateau around 0.38 after a few epochs of training, as is similar to the training loss (\autoref{fig:loss}). The training loss began around 0.35, and rapidly converged around 0.08. This indicates that improvements from further training would likely be marginal, and to better estimate the location of gaze, a larger dataset, hyperparameter optimisation, or a different architecture entirely may be necessary. I believe that the best option to improve performance would be to use a larger dataset, as the MPIIFaceGaze dataset is very small in comparison to other larger datasets such as Gazecapture. 
 
 \begin{figure}
     \begin{center}
@@ -368,7 +377,7 @@ When training with MPIIFaceGaze, it took approximately 30 hours to perform 25 ep
 \chapter{Evaluation of the FocusFlow Browser Extension}
 \label{chap:results}
 
-This chapter will evaluate the effectiveness of the browser extension I developed. It will cover how well the final product meets the requirements outlined in ~\autoref{sec:requirement-analysis}, how effective the machine learning model I developed is, and under what conditions the performance of the extension is optimal. I will discuss the effectiveness of the machine learning model in \autoref{sec:itracker-eval}, and how well the final product meets the requirements in ~\autoref{sec:post-devel-requirement-analysis}.
+This chapter will evaluate the effectiveness of the browser extension I developed. It will cover how well the final product meets the requirements outlined in ~\autoref{sec:requirement-analysis}, how effective the machine learning model I developed is, and under what conditions the performance of the extension is optimal. I will discuss the effectiveness of the machine learning model in \autoref{sec:itracker-eval}, and how well the final product meets the requirements in ~\autoref{sec:post-devel-requirement-analysis}. As part of this evaluation, I have included a demonstration video of my project which can be found \href{https://www.youtube.com/watch?v=YR3ODMgqx2k}{here}~\cite{demonstrationVideo}
 
 \section{Evaluation of the Machine Learning Model}\label{sec:itracker-eval}
 
@@ -387,7 +396,7 @@ I also generated a heatmap that shows where the machine learning model is most l
 \begin{figure}
     \centering
     \includegraphics[scale=1]{../assets/heatmap.png}
-    \caption{Heatmap of Gaze Locations made by iTracker}
+    \caption{Heatmap of Gaze Locations made by iTracker where $(x, y)$ represent the predicted location of gaze in a normalised space.}
     \label{fig:heatmap}
 \end{figure}
 
@@ -395,7 +404,7 @@ I also generated a heatmap that shows where the machine learning model is most l
     \begin{center}
         \includegraphics[scale=0.5]{../assets/log-mpii.png}   
     \end{center}
-    \caption{Locations of gaze within the MPIIFaceGaze dataset}
+    \caption{Locations of gaze within the MPIIFaceGaze dataset where $(x, y)$ represent the ground truth location of gaze annotation in a normalised space}
     \label{fig:log-mpii}
 \end{figure}
 
@@ -539,7 +548,8 @@ I also generated a heatmap that shows where the machine learning model is most l
 \end{figure}
 
 
-\chapter{Discussion: Future Work}\label{chap:discussion}
+\chapter{Discussion: Future Work}
+\label{chap:discussion}
 
 \section{Exploring Alternative Training Datasets}
 
@@ -553,15 +563,16 @@ Training the model on this dataset would've also required the development of a c
 
 \section{Gaze Estimation Research Studies}
 
-As explored in Section~\ref{chap:methods}, I made use of the iTracker model~\cite{krafka2016eye} to handle performing gaze location inference. This was because of its ability to learn gaze inference on images taken from a webcam or front-facing camera with very little pre-processing when compared to other models. However, further work could develop and evaluate the effectiveness of other, custom models based on state-of-the-art architectures found in the literature such as~\cite{seonwook2019fewshot,tafasca2023sharingan}. 
+As explored in Section~\ref{chap:methods}, I made use of the iTracker model~\cite{krafka2016eye} to handle performing gaze location inference. This was because of its ability to learn gaze inference on images taken from a webcam or front-facing camera with very little pre-processing when compared to other models. However, further work could develop and evaluate the effectiveness of other, custom models based on state-of-the-art architectures found in the literature such as~\cite{seonwook2019fewshot,tafasca2023sharingan}. The model I trained turned out to be quite inaccurate, and further work should be done to improve the accuracy of its predictions such as the aforementioned state-of-the-art models. 
 
 Further work could also research the effect of utilizing a 3D gaze vector model, such as~\cite{zaho2024gazeswin,yu2019deep} on the accuracy of the final product. I was unable to implement this myself as the process of converting between 3D gaze direction vectors requires estimating both the head pose of the user and the position of the screen within 3D space~\cite{zhang15cvpr}. However, further research could involve the prediction of these parameters. For example, making use of techniques such as Appearance template methods~\cite{niyogi1996example}, in which a new image of a head is compared to a set of examples labeled with a discrete pose to find the most similar pose, or detector array methods where a series of head detectors are trained on a specific pose and assign a discrete pose to the detector with the greatest support, among numerous other methods which are explored in~\cite{chutorian2009head}. Screen pose can be determined easily on mobile devices by making use of the gyroscopes that are present in nearly all modern smartphones. Desktop devices are less likely to have these sensors, as they are typically static while in use, which makes it far easier to estimate their pose in 3D space.
 
-Another aspect of this project that should be explored is how well a pre-trained model performs. A variety of pre-trained models exist and have been shown to perform very well across a variety of domains within the gaze mapping field~\cite{akinyelu2020convolutional}, so it would be interesting to see if they are capable of higher accuracy than the iTracker model. This would require using any number of the existing pre-trained models such as ResNet~\cite{he2015deep}, AlexNet~\cite{krizhevsky2017imagenet}, and modifying the network architecture such that it outputs a 2D vector representing the gaze location on a screen. Then, perform transfer learning on a smaller dataset. This would cut down significantly on training time, and could also be used for calibration to improve the performance of the model. 
+Another aspect of this project that further work could explore is how well a pre-trained model performs on this task. A variety of pre-trained models exist and have been shown to perform very well across a variety of domains within the gaze mapping field~\cite{akinyelu2020convolutional}, so it would be interesting to see if they are capable of higher accuracy than the iTracker model. This would require using any number of the existing pre-trained models such as ResNet~\cite{he2015deep}, AlexNet~\cite{krizhevsky2017imagenet}, and modifying the network architecture such that it outputs a 2D vector representing the gaze location on a screen. Then, perform transfer learning on a smaller dataset. This would cut down significantly on training time, and could also be used for calibration to improve the performance of the model. 
 
-Another aspect that my project did not consider which would be a good area for further research could be the calibration of these models. Approaches such as FAZE ~\cite{seonwook2019fewshot} could be used to improve the performance of the final product. 
+My project also did not consider the effect of calibration on the accuracy of its predictions. This would be an excellent starting point for further work, as the effectiveness of the overall system is largely dependent on the accuracy of the model. Approaches such as the FAZE framework outlined in~\posscite{seonwook2019fewshot} paper should be considered for this task.
 
-Commercial approaches such as the devices manufactured by Tobii~\cite{tobiiprofusion} could also be integrated into the software to see how a non-appearance-based approach could solve the problem. This device can reportedly achieve far higher accuracy of eye tracking to within \(\ang{0.3}\) of the true gaze vector, and it would be interesting to see whether it is capable of detecting gaze on a far smaller scale than paragraphs, such as lines or even individual words. 
+
+Commercial approaches such as the devices manufactured by Tobii~\cite{tobiiprofusion} could also be integrated into the software to see how a non-appearance-based approach could solve the problem. This device uses a different approach, namely infrared cameras to capture images for gaze inference, and can reportedly achieve far higher accuracy of eye tracking to within \(\ang{0.3}\) of the true gaze vector. It would be interesting to see whether it is capable of detecting gaze on a far smaller scale than paragraphs, such as lines or even individual words. 
 
 As explored in the evaluation of the machine learning model,~\autoref{sec:itracker-eval}, the horizontal component of the gaze location is significantly less important than the vertical component. This is because most websites arrange text in a single-column format. Therefore, it may improve the performance of the model to disregard this component of gaze location altogether and focus solely on the vertical. This would also require modification of the browser extension to modify the bounding boxes of the paragraph elements such that they span the width of the entire page, instead of just using the bounding box provided by the \texttt{HTMLElement.getBoundingClientRect} method.
 
@@ -579,9 +590,14 @@ The use of transfer learning allows deep learning models to be adapted to a new 
 
 The API that handles gaze inference was initially going to be developed in the Rust programming language. This is because I am very familiar with this language, it's robust to memory-based bugs, and it's extremely performant due to its focus on speed while still affording developers high-level abstractions, such as its excellent type and hygienic macros systems. This was because I wanted to leave the option open to perform live gaze tracking on the webpage. This would help when considering the potential for developing accessibility browser extensions as outlined in~\autoref{ssec:stretch}, as it would have to update in real-time, likely making many inferences every second and therefore multiple requests to the API every second. Thus requiring an API with very low latency. Rust-based APIs are known to be extremely performant~\cite{ali2020benchmark}, with most REST API frameworks being capable of at least 300000 requests per second, some even reaching 500000 requests per second, whereas the Python API framework I ended up using, FastAPI, was only capable of achieving 255000 requests per second. This would probably be fine for a locally hosted API, but future work on this project could find that it would be optimal to remotely host the model instead. In this case, it would be necessary to ensure the API is as fast as possible to enable multiple, concurrent users to use the browser extension at the same time. 
 
-In the end however, I decided to implement the API in python instead as I was unable to get the image pre-processing models to work in rust. While multiple libraries exist for this purpose, they are not compatible with the format the dlib facial alignment model~\cite{king2009dlib} is released in, and a Foreign Function Interface (FFI), which would allow me to call C and C++ functions from rust, is not available for the dlib C++ library, meaning I would have to implement it myself. While rust makes it easy to develop FFIs, I am not experienced with this, and I could not find the time to develop the skills necessary, opting to instead use Python as the developer experience to get everything working was far easier due to the existence of libraries for interacting with the dlib models.
+In the end however, I decided to implement the API in Python instead as I was unable to get the image pre-processing models to work in Rust. While multiple libraries exist for this purpose, they are not compatible with the format the dlib facial alignment model~\cite{king2009dlib} is released in, and a Foreign Function Interface (FFI), which would allow me to call C and C++ functions from Rust, is not available for the dlib C++ library, meaning I would have to implement it myself. While Rust makes it easy to develop FFI's~\cite{rust2017ffi}, I am not experienced with this, and I could not find the time to develop the skills necessary, opting to instead use Python as the developer experience to get everything working was far easier due to the existence of libraries for interacting with the dlib models.
 
 \chapter{Conclusion}
+
+To conclude, this report has outlined my implementation of a cross-platform browser extension that automatically bookmarks where a user was reading in a body of text, and an evaluation of its performance. It enables users to keep track of their place in text while multi-tasking on their browser. I trained an appearance-based gaze mapping model known as iTracker~\cite{krafka2016eye} on the MPIIFaceGaze~\cite{zhang2019mpii} dataset, which was able to achieve a normalised testing error of 0.38 from the true gaze location. This correlates to a model that can estimate the paragraph the user's gaze was focused on before they switched tabs in a majority of cases. However, it sometimes predicted the wrong paragraph~\cite{demonstrationVideo}. I believe this to be due to the relatively small size of the training dataset. However, further research should consider the effect of using different models, calibration, or even dedicated hardware on its effectiveness in addition to increasing the amount of training data. Overall, the model I trained performs well, it's capable of accurately predicting the paragraph a user is currently focusing on under a variety of lighting conditions, and screen sizes. I found that the model itself performed similarly to the results published by \posscite{cheng2021survey}. However, it is worth noting that while I wanted to replicate the results found in their survey of existing methods, they did not publish the hyperparameters used to achieve those results. I used the hyperparameters published by \posscite{krafka2016eye} to train the model, which could have been different from the ones in the survey. For this reason, techniques such as grid search, Bayesian, or gradient-based optimization should be considered to find the best possible values for the hyperparameters. 
+
+The browser extension itself is easy to use, requiring very little input from the user, and could easily be built upon thanks to the extensibility of the Plasmo framework. The concepts developed as part of this extension could be used to develop future browser extensions that improve the accessibility of the web, and future work should consider using this framework to aid in the development of such an extension. Future work could also consider cloud hosting the machine learning model to make the extension even easier to use. Currently, the user has to run a Python web server to host the model which the browser extension can communicate with. By offloading this to the cloud, it prevents issues when setting up the application, and makes it far easier for the users. As it stands, the performance of the browser extension is limited by the performance of the model, so future work should consider this first. I also had intended this project to function on both mobile and desktop devices, while it currently is only supported on desktop devices.  
+
 
 % \nocite{*}
 \printbibliography
@@ -615,7 +631,7 @@ In the end however, I decided to implement the API in python instead as I was un
     \item 2024-02-08 Plan for literature review, tried merging gazecapture and mpiifacegaze datasets, received revised ethics application. 
     \item 2024-02-19 Debugging session with my supervisor to figure out an issue with the length of time required to perform validation, made a plan for testing the final product, review of existing literature 
     \item 2024-02-29 Finished development of the API 
-    \item 2024-07-03 Wrote outline for the report
+    \item 2024-03-07 Wrote outline for the report
     \item 2024-04-01 Trained iTracker on MPIIFaceGaze for 25 epochs, performed data augmentation on the MPII Face Gaze dataset to normalise the locations of gaze, started work on final report, finalized the codebase 
     \item 2024-05-01 Finished report \& made a demonstration video 
 \end{itemize}
@@ -632,9 +648,9 @@ MPIIGaze \cite{zhang15cvpr} was also captured in similar settings as GazeCapture
 
 The ETHX-Gaze dataset \cite{zhang2020ethxgaze} was captured in lab settings using multiple external cameras. The dataset includes face images, gaze target positions, and lighting conditions. The dataset will be accessed via the website \url{https://ait.ethz.ch/xgaze}, a registration form, and an agreement to a license that requires non-commercial use.
 
-The machine learning model developed from these datasets will be used to build a software deployed on a local computer.The software will take face images via the device camera, triggered by events on the linked web browser (e.g. switching tabs), and send inference of the user's gaze target location on the given web page to the browser for bookmarking.This web browser extension software will only be validated on myself and my supervisor; no tests with primary research participants will be carried out. The validation will involve the subject (me or my supervisor) reading a selection of texts, e.g. on computer science topics, on a laptop (browser). Face images of the subject will be captured and processed using the custom software described above. The images captured will be discarded and not stored after processing is complete. However, face images from me and processed derivatives will be saved for use in presentations and publications (e.g. my dissertation) to facilitate valuable description of the software and its validation.
+The machine learning model developed from these datasets will be used to build software deployed on a local computer. The software will take face images via the device camera, triggered by events on the linked web browser (e.g. switching tabs), and send inference of the user's gaze target location on the given web page to the browser for bookmarking. This web browser extension software will only be validated by myself and my supervisor; no tests with primary research participants will be carried out. The validation will involve the subject (me or my supervisor) reading a selection of texts, e.g. on computer science topics, on a laptop (browser). Face images of the subject will be captured and processed using the custom software described above. The images captured will be discarded and not stored after processing is complete. However, face images from me and processed derivatives will be saved for use in presentations and publications (e.g. my dissertation) to facilitate valuable descriptions of the software and its validation.
 
-The datasets are well used in the research community, e.g. in \cite{Valliappan2020accelerating}, \cite{seonwook2019fewshot} . My use aligns with the purpose for which they were originally collected (gaze tracking). The datasets will be stored on an external hard drive, which will be software-encrypted and not shared with any third party, and on the University of Sussex OneDrive. The data will also be stored and processed on my personal laptop, which is password protected and will not be shared with any third party, as well as on University of Sussex computers. Processing will be done using standard statistics and machine learning methods and software development kits.
+The datasets are well used in the research community, e.g. in \cite{Valliappan2020accelerating}, \cite{seonwook2019fewshot}. My use aligns with the purpose for which they were originally collected (gaze tracking). The datasets will be stored on an external hard drive, which will be software-encrypted and not shared with any third party, and on the University of Sussex OneDrive. The data will also be stored and processed on my personal laptop, which is password protected and will not be shared with any third party, as well as on University of Sussex computers. Processing will be done using standard statistics and machine learning methods and software development kits.
 
 \section*{Amendment}
 
@@ -670,6 +686,22 @@ This project incorporates web development, and machine learning, to hopefully im
 
 \chapter{GitHub Repository}
 
-All of the source files for this project are available on my \href{https://github.com/Henry-Ash-Williams}{GitHub}. However, as most of the work occurred in the iTracker submodule, and I have not pushed my changes to the main repository, please see the zip archive on my canvas submission to see all of the code used for this project. 
+All of the source files for this project are available on my \href{https://github.com/Henry-Ash-Williams}{GitHub}. However, as most of the work occurred in the iTracker submodule, it does not reflect these changes. Please see the zip archive titled \texttt{233561-dissertation-files.zip} on my canvas submission to see all of the code used for this project. 
+
+\chapter{Acknowledgements}
+
+% This project would not have been possible without the support and guidance provided by my supervisor, Dr Temitayo Olugbade who provided invaluable guidance and feedback. I would also like to thank all of the lecturers I have had the pleasure of studying under at the University of Sussex whose skills and expertise have helped develop my knowledge of the field to make this report possible. 
+
+I would like to express my deepest thanks to my supervisor, Dr Temitayo Olugbade for her invaluable guidance, support and insightful feedback while completing this dissertation. Her expertise, encouragement and mentorship were invaluable and without her, this work would not have been possible. 
+
+I also would like to extend my thanks to all the lecturers and teaching staff at the University of Sussex for their dedication and commitment to providing an excellent academic environment. It has been a pleasure to study under all of them for the past four years. 
+
+To my classmates, whose camaraderie and solidarity have made this journey enjoyable and fulfilling. I wish them all the best of luck in their future endeavors. I would like to also thank Jack Speat for always being there to help, I wish him the best of luck with his PhD. 
+
+To all the committee members of Hacksussex, it has been a pleasure to help organise excellent student-led events and competitions across campus with you all. Their support and solidarity for my project were invaluable. 
+
+The PAL team deserves special recognition for always being available to provide support and assistance over the course of this project. Their responsiveness and willingness to help have been greatly appreciated.
+
+Last but not least, I would like to express my deepest gratitude to my family for their unwavering support, understanding, and encouragement throughout this academic pursuit. Their love and belief in me have been instrumental throughout my time at the University of Sussex. My sister, Agnes, deserves special thanks for always being available to provide help and support when needed. 
 
 \end{document}
